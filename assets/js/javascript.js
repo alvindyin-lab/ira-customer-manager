@@ -1,8 +1,25 @@
-// ===== WAKTU REAL TIME =======
+// =========================================================
+// WAKTU REAL TIME
+// =========================================================
 
 function tampilkanWaktu() {
 
-    const sekarang = new Date();
+    const dateElement =
+        document.getElementById("dateNow");
+
+    const timeElement =
+        document.getElementById("timeNow");
+
+
+    // Jika topbar belum tersedia
+    if (!dateElement || !timeElement) {
+        return;
+    }
+
+
+    const sekarang =
+        new Date();
+
 
     const hari = [
         "Minggu",
@@ -13,6 +30,7 @@ function tampilkanWaktu() {
         "Jumat",
         "Sabtu"
     ];
+
 
     const bulan = [
         "Januari",
@@ -29,95 +47,146 @@ function tampilkanWaktu() {
         "Desember"
     ];
 
-    const namaHari = hari[sekarang.getDay()];
-    const tanggal = sekarang.getDate();
-    const namaBulan = bulan[sekarang.getMonth()];
-    const tahun = sekarang.getFullYear();
 
-    const jam = String(sekarang.getHours()).padStart(2, "0");
-    const menit = String(sekarang.getMinutes()).padStart(2, "0");
-    const detik = String(sekarang.getSeconds()).padStart(2, "0");
+    const namaHari =
+        hari[sekarang.getDay()];
 
-    document.getElementById("dateNow").innerHTML =
+    const tanggal =
+        sekarang.getDate();
+
+    const namaBulan =
+        bulan[sekarang.getMonth()];
+
+    const tahun =
+        sekarang.getFullYear();
+
+
+    const jam =
+        String(
+            sekarang.getHours()
+        ).padStart(2, "0");
+
+
+    const menit =
+        String(
+            sekarang.getMinutes()
+        ).padStart(2, "0");
+
+
+    const detik =
+        String(
+            sekarang.getSeconds()
+        ).padStart(2, "0");
+
+
+    dateElement.innerHTML =
         `${namaHari}, ${tanggal} ${namaBulan} ${tahun}`;
 
-    document.getElementById("timeNow").innerHTML =
+
+    timeElement.innerHTML =
         `${jam}:${menit}:${detik}`;
 }
 
-tampilkanWaktu();
 
-setInterval(tampilkanWaktu, 1000);
+// =========================================================
+// PENGATURAN HALAMAN
+// =========================================================
 
+function inisialisasiNavigasi() {
 
-// ===== PENGATURAN HALAMAN =======
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const navItems = document.querySelectorAll(".nav-item");
-    const pages = document.querySelectorAll(".page");
+    const navItems =
+        document.querySelectorAll(".nav-item");
 
 
-    navItems.forEach(function (navItem) {
-
-        navItem.addEventListener("click", function () {
-
-            const targetPage = this.dataset.page;
+    const pages =
+        document.querySelectorAll(".page");
 
 
-            // ==========================
-            // HAPUS ACTIVE NAV
-            // ==========================
+    navItems.forEach(function(navItem) {
 
-            navItems.forEach(function (item) {
+        navItem.addEventListener(
+            "click",
+            function() {
 
-                item.classList.remove("active");
-
-            });
-
-
-            // ==========================
-            // TAMBAHKAN ACTIVE NAV
-            // ==========================
-
-            this.classList.add("active");
+                const targetPage =
+                    this.dataset.page;
 
 
-            // ==========================
-            // SEMBUNYIKAN SEMUA PAGE
-            // ==========================
+                // Hapus active navigation
+                navItems.forEach(function(item) {
 
-            pages.forEach(function (page) {
+                    item.classList.remove(
+                        "active"
+                    );
 
-                page.classList.remove("active");
-
-            });
+                });
 
 
-            // ==========================
-            // TAMPILKAN PAGE TUJUAN
-            // ==========================
+                // Tambahkan active navigation
+                this.classList.add(
+                    "active"
+                );
 
-            const page = document.getElementById(targetPage);
 
-            if (page) {
+                // Sembunyikan semua page
+                pages.forEach(function(page) {
 
-                page.classList.add("active");
+                    page.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                // Tampilkan page tujuan
+                const page =
+                    document.getElementById(
+                        targetPage
+                    );
+
+
+                if (page) {
+
+                    page.classList.add(
+                        "active"
+                    );
+
+                }
 
             }
-
-        });
+        );
 
     });
 
-});
+}
 
-// document.addEventListener('DOMContentLoaded', function () {
 
-//   alert(
-//     'Viewport width: ' +
-//     window.innerWidth +
-//     'px'
-//   );
+// =========================================================
+// JALANKAN SETELAH SEMUA HTML SELESAI DIMUAT
+// =========================================================
 
-// });
+document.addEventListener(
+    "layoutLoaded",
+    function() {
+
+        console.log(
+            "✅ javascript.js siap."
+        );
+
+
+        // Jalankan jam
+        tampilkanWaktu();
+
+
+        // Update setiap detik
+        setInterval(
+            tampilkanWaktu,
+            1000
+        );
+
+
+        // Aktifkan navigasi
+        inisialisasiNavigasi();
+
+    }
+);
