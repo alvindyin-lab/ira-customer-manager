@@ -157,7 +157,6 @@ function loadPelanggan() {
     });
 
 }
-```
 
 
 
@@ -443,213 +442,7 @@ function createCustomerCard(customer) {
 
 
 
-
-
-
-
-
 /* =========================================================
-   MODAL DETAIL PELANGGAN
-========================================================= */
-
-function bukaModalDetailPelanggan(customer) {
-
-  if (!customer) {
-
-    console.error(
-      'Data pelanggan tidak ditemukan.'
-    );
-
-    return;
-
-  }
-
-
-  // =====================================================
-  // ISI DATA HEADER
-  // =====================================================
-
-  document.getElementById(
-    'detailNama'
-  ).textContent =
-    customer.nama || '-';
-
-
-  document.getElementById(
-    'detailCustomerId'
-  ).textContent =
-    'ID: ' + (
-      customer.customerId || '-'
-    );
-
-
-  // =====================================================
-  // DATA KONTAK
-  // =====================================================
-
-  document.getElementById(
-    'detailWhatsapp'
-  ).textContent =
-    customer.whatsapp || '-';
-
-
-  document.getElementById(
-    'detailNomorTerdaftar'
-  ).textContent =
-    customer.noterdaftar || '-';
-
-
-  // =====================================================
-  // DATA IDENTITAS
-  // =====================================================
-
-  document.getElementById(
-    'detailSerialNumber'
-  ).textContent =
-    customer.serialnumber || '-';
-
-
-  document.getElementById(
-    'detailNik'
-  ).textContent =
-    customer.nik || '-';
-
-
-  // =====================================================
-  // DATA WILAYAH
-  // =====================================================
-
-  document.getElementById(
-    'detailKecamatan'
-  ).textContent =
-    customer.kecamatan || '-';
-
-
-  document.getElementById(
-    'detailDesa'
-  ).textContent =
-    customer.desa || '-';
-
-
-  document.getElementById(
-    'detailRTRW'
-  ).textContent =
-    customer.rtrw || '-';
-
-
-  // =====================================================
-  // ALAMAT
-  // =====================================================
-
-  document.getElementById(
-    'detailAlamat'
-  ).textContent =
-    customer.alamat || '-';
-
-
-  // =====================================================
-  // TANGGAL
-  // =====================================================
-
-  document.getElementById(
-    'detailDibuatPada'
-  ).textContent =
-    customer.dibuatPada || '-';
-
-
-  document.getElementById(
-    'detailDiupdateTerakhir'
-  ).textContent =
-    customer.diupdateTerakhir || '-';
-
-
-  // =====================================================
-  // STATUS
-  // =====================================================
-
-  const statusElement =
-    document.getElementById(
-      'detailStatus'
-    );
-
-
-  statusElement.textContent =
-    customer.status || '-';
-
-
-  // Hapus class status sebelumnya
-
-  statusElement.classList.remove(
-    'status-active',
-    'status-pending',
-    'status-nonactive'
-  );
-
-
-  if (customer.status === 'Aktif') {
-
-    statusElement.classList.add(
-      'status-active'
-    );
-
-  }
-
-  else if (
-    customer.status === 'Pending'
-  ) {
-
-    statusElement.classList.add(
-      'status-pending'
-    );
-
-  }
-
-  else {
-
-    statusElement.classList.add(
-      'status-nonactive'
-    );
-
-  }
-
-
-  // =====================================================
-  // JENIS CPE
-  // =====================================================
-
-  document.getElementById(
-    'detailCpe'
-  ).textContent =
-    customer.cpe || '-';
-
-
-  // =====================================================
-  // SIMPAN CUSTOMER YANG SEDANG DIBUKA
-  // =====================================================
-
-  window.pelangganDetailAktif =
-    customer;
-
-
-  // =====================================================
-  // TAMPILKAN MODAL
-  // =====================================================
-
-  const modal =
-    document.getElementById(
-      'modalDetailPelanggan'
-    );
-
-
-  if (modal) {
-
-    modal.classList.add(
-      'show'
-    );
-
-  }
-
-}/* =========================================================
    MODAL DETAIL PELANGGAN
 ========================================================= */
 
@@ -955,18 +748,18 @@ document.addEventListener(
 // START DATA PELANGGAN
 // =====================================================
 
-if (document.readyState === 'loading') {
+document.addEventListener(
+    'layoutLoaded',
+    function() {
 
-  document.addEventListener(
-    'DOMContentLoaded',
-    loadPelanggan
-  );
+        console.log(
+            '✅ javascript-read.js siap.'
+        );
 
-} else {
+        loadPelanggan();
 
-  loadPelanggan();
-
-}
+    }
+);
 
 // =====================================================
 // UPDATE PAGINATION
