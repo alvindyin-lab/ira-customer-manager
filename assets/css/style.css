@@ -1,0 +1,249 @@
+<style>
+  :root {
+    --red-main: #da2c25;
+    --red-second: #a91f1a;
+    --red-third: #8f1915;
+    --white: #ffffff;
+    --muted: #6b7280;
+    --bg: #f4f7fb;
+    --radius: 12px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* ========================================================
+   GLOBAL
+======================================================== */
+
+  * {
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 0;
+
+  }
+
+
+  html,
+  body {
+
+    font-family: "Inter", sans-serif;
+
+    background-color: white;
+
+    color: var(--text);
+
+    min-height: 100vh;
+  }
+
+
+  button,
+  input {
+
+    font-family: inherit;
+
+  }
+
+
+  /* ========================================================
+   APPLICATION
+======================================================== */
+
+  .app {
+
+    min-height: 100vh;
+
+    background: #F2F3F5;
+
+    border-radius: 0px;
+
+    overflow: hidden;
+
+    display: flex;
+
+  }
+
+
+  /* ========================================================
+   CONTENT
+======================================================== */
+
+  .content {
+
+    min-height: 100vh;
+
+    background: #F7F8FA;
+
+    overflow-y: auto;
+
+    margin-left: 220px;
+
+    width: auto;
+    flex: 1;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+  }
+
+
+  /* ========================================================
+   PAGE
+======================================================== */
+
+  .page {
+
+    display: none;
+
+  }
+
+
+  .page.active {
+
+    display: block;
+
+  }
+
+
+  .empty-page {
+
+    min-height: 500px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    color: #888;
+
+  }
+
+
+  .empty-page svg {
+
+    width: 50px;
+
+    height: 50px;
+
+    margin-bottom: 15px;
+
+    color:
+      var(--primary);
+
+  }
+
+
+  .empty-page h2 {
+
+    color: #222;
+
+    font-size: 20px;
+
+    margin-bottom: 5px;
+
+  }
+
+
+  .empty-page p {
+
+    font-size: 12px;
+
+  }
+
+
+
+  /* ========================================================
+   GLOBAL RESPONSIVE
+======================================================== */
+
+  @media (max-width: 1000px) {
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    .app {
+      width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      display: block;
+      overflow: visible;
+      padding: 0px 35px;
+      background: #ffffff;
+    }
+
+    .content {
+      width: 100%;
+      margin-left: 0;
+      min-height: 100vh;
+
+      padding-bottom: calc(90px + env(safe-area-inset-bottom));
+
+      box-sizing: border-box;
+
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: #ffffff;
+    }
+
+    /* ========================================================
+   GLOBAL SCROLLBAR
+======================================================== */
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    .app::-webkit-scrollbar,
+    .content::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    html::-webkit-scrollbar-track,
+    body::-webkit-scrollbar-track,
+    .app::-webkit-scrollbar-track,
+    .content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    html::-webkit-scrollbar-thumb,
+    body::-webkit-scrollbar-thumb,
+    .app::-webkit-scrollbar-thumb,
+    .content::-webkit-scrollbar-thumb {
+      background: #d5d7da;
+      border-radius: 10px;
+    }
+
+    body:has(#pelanggan) .content {
+
+      overflow: hidden;
+
+    }
+
+    body:has(#pelanggan.active) .content {
+
+      height: 100vh;
+
+      min-height: 0;
+
+      padding-bottom: 110px;
+
+      box-sizing: border-box;
+
+      overflow: hidden;
+
+      display: flex;
+
+      flex-direction: column;
+
+    }
+
+  }
+
+  ;
+</style>
