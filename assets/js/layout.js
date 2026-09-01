@@ -23,7 +23,7 @@ fetch('includes/page-pelanggan.html')
         document.getElementById('pelanggan').innerHTML = html;
     });
 
-fetch('includes/add-pelanggan.html')
+fetch('includes/page-tambah-pelanggan.html')
     .then(response => response.text())
     .then(html => {
         document.getElementById('add-pelanggan').innerHTML = html;
