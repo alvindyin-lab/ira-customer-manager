@@ -1,4 +1,4 @@
-<script>
+
   // CRUD (READ) - DATA PELANGGAN
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbzJmYeonwSAWTM1It3f36B9tn_U0pUXSkolXqebzow3u-FRs7m0LeC3hW5NJHVUbG89/exec';
@@ -1119,5 +1119,3 @@ function sortPelanggan() {
 
   renderPelanggan();
 }
-
-</script>
