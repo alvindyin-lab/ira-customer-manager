@@ -1,0 +1,500 @@
+<!-- ===================================================
+PAGE TAMBAH PELANGGAN
+==================================================== -->
+
+<section id="add-pelanggan" class="page">
+
+  <div class="tambah-pelanggan-container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="tambah-page-header">
+
+      <div class="tambah-page-icon">
+
+        <i class="fa-solid fa-user-plus"></i>
+
+      </div>
+
+
+      <div class="tambah-page-title">
+
+        <h2>
+          Tambah Pelanggan Baru
+        </h2>
+
+        <p>
+          Lengkapi informasi berikut untuk menambahkan pelanggan baru.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- FORM PANEL -->
+
+    <div class="tambah-pelanggan-panel">
+
+
+      <!-- FORM HEADER -->
+
+      <div class="form-header">
+
+        <i class="fa-regular fa-address-card"></i>
+
+        <h3>
+          Informasi Pelanggan
+        </h3>
+
+      </div>
+
+
+      <div class="form-divider"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- FORM -->
+
+      <form id="formTambahPelanggan" onsubmit="submitFormPelanggan(event)">
+
+
+        <div class="form-grid">
+
+          <!-- ==================================================
+       BARIS 1
+       NAMA LENGKAP | ID
+  =================================================== -->
+
+          <!-- NAMA LENGKAP -->
+
+          <div class="form-group">
+
+            <label for="inputNama">
+              Nama Lengkap
+              <span>*</span>
+            </label>
+
+            <input
+              type="text"
+              id="inputNama"
+              placeholder="Masukkan nama lengkap pelanggan"
+              autocomplete="off">
+
+          </div>
+
+
+          <!-- ID -->
+
+          <div class="form-group">
+
+            <label for="inputId">
+              Customer ID
+            </label>
+
+            <input
+              type="text"
+              id="inputId"
+              placeholder="Masukkan ID pelanggan"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- ==================================================
+       BARIS 2
+       WHATSAPP | SERIAL NUMBER | NIK
+  =================================================== -->
+
+          <!-- NOMOR WHATSAPP -->
+
+          <div class="form-group">
+
+            <label for="inputWhatsapp">
+              Nomor WhatsApp
+              <span>*</span>
+            </label>
+
+            <div class="input-with-icon">
+
+              <!-- <i class="fa-brands fa-whatsapp"></i> -->
+
+              <input
+                type="tel"
+                id="inputWhatsapp"
+                placeholder="08xxxxxxxxxx"
+                autocomplete="off"
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- SERIAL NUMBER -->
+
+          <div class="form-group">
+
+            <label for="inputSerialNumber">
+              Serial Number
+            </label>
+
+            <input
+              type="text"
+              id="inputSerialNumber"
+              placeholder="Masukkan serial number"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- NIK -->
+
+          <div class="form-group">
+
+            <label for="inputNik">
+              NIK (Nomor Induk Kependudukan)
+              <span>*</span>
+            </label>
+
+            <input
+              type="text"
+              id="inputNik"
+              placeholder="Masukkan 16 digit NIK"
+              maxlength="16"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- ==================================================
+       BARIS 3
+       KECAMATAN | DESA/KELURAHAN | RT/RW
+  =================================================== -->
+
+          <!-- KECAMATAN -->
+
+          <div class="form-group">
+
+            <label for="inputKecamatan">
+              Kecamatan
+              <span>*</span>
+            </label>
+
+            <select
+              id="inputKecamatan"
+              onchange="ubahKecamatan(); updateSelectPlaceholder(this)">
+
+              <option value="" selected>
+                Pilih Kecamatan
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- DESA / KELURAHAN -->
+
+          <div class="form-group">
+
+            <label for="inputDesa">
+              Desa / Kelurahan
+              <span>*</span>
+            </label>
+
+            <select
+              id="inputDesa" 
+              disabled
+              onchange="updateSelectPlaceholder(this)">
+
+              <option value="" selected>
+                Pilih Desa / Kelurahan
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- RT / RW -->
+
+          <div class="form-group">
+
+            <label for="inputRTRW">
+              RT / RW
+              <span>*</span>
+            </label>
+
+            <input
+              type="text"
+              id="inputRTRW"
+              placeholder="00/00"
+              maxlength="5"
+              inputmode="numeric"
+              autocomplete="off"
+              oninput="formatRTRW(this)"
+            >
+
+          </div>
+
+
+          <!-- ==================================================
+       BARIS 4
+       ALAMAT LENGKAP
+  =================================================== -->
+
+          <div class="form-group full-width">
+
+            <label for="inputAlamat">
+              Alamat Lengkap (Patokan Rumah)
+              <span>*</span>
+            </label>
+
+            <textarea
+              id="inputAlamat"
+              rows="4"
+              placeholder="Masukkan alamat lengkap beserta patokan rumah"></textarea>
+
+          </div>
+
+
+          <!-- ==================================================
+       BARIS 5
+       KOORDINAT | JENIS CPE
+  =================================================== -->
+
+          <!-- KOORDINAT -->
+
+          <div class="form-group">
+
+            <label for="inputKoordinat">
+              Koordinat
+              <span>*</span>
+            </label>
+
+            <input
+              type="text"
+              id="inputKoordinat"
+              placeholder="Contoh: -7.4478, 112.7183"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- JENIS CPE -->
+
+          <div class="form-group">
+
+            <label for="inputCpe">
+              Jenis CPE
+              <span>*</span>
+            </label>
+
+            <select id="inputCpe">
+
+              <option value="">
+                Pilih Jenis CPE
+              </option>
+
+              <option value="MEIG">
+                MEIG
+              </option>
+
+              <option value="WEIWINS">
+                WEIWINS
+              </option>
+
+              <option value="ZTE">
+                ZTE
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <!-- FORM FOOTER -->
+
+        <div class="form-footer">
+
+
+          <div class="form-info">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            <span>
+              Pastikan seluruh data yang dimasukkan sudah benar sebelum disimpan.
+            </span>
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="btn-batal"
+              onclick="resetFormPelanggan()"
+            >
+
+              <i class="fa-solid fa-xmark"></i>
+
+              Batal
+
+            </button>
+
+
+            <button
+              type="submit"
+              class="btn-simpan"
+            >
+
+              <i class="fa-regular fa-floppy-disk"></i>
+
+              Simpan Data
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+MODAL VALIDASI TAMBAH PELANGGAN
+==================================================== -->
+
+<div id="modalValidasiPelanggan" class="modal-overlay">
+
+
+  <div class="validation-modal">
+
+
+    <div class="validation-icon">
+
+      <i class="fa-solid fa-circle-question"></i>
+
+    </div>
+
+
+    <div class="validation-content">
+
+      <h3>
+        Simpan Data Pelanggan
+      </h3>
+
+      <p>
+        Apakah Anda yakin seluruh data pelanggan yang dimasukkan sudah benar?
+      </p>
+
+    </div>
+
+
+    <!-- RINGKASAN DATA -->
+
+    <div class="validation-summary">
+
+      <div>
+
+        <span>Nama</span>
+
+        <strong id="validasiNama">
+          -
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span>WhatsApp</span>
+
+        <strong id="validasiWhatsapp">
+          -
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span>NIK</span>
+
+        <strong id="validasiNik">
+          -
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span>Wilayah</span>
+
+        <strong id="validasiWilayah">
+          -
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- ACTION -->
+
+    <div class="validation-actions">
+
+      <button
+        type="button"
+        class="modal-btn-batal"
+        onclick="tutupModalValidasi()"
+      >
+
+        BATAL
+
+      </button>
+
+
+      <button
+        type="button"
+        class="modal-btn-oke"
+        onclick="konfirmasiSimpanPelanggan()"
+      >
+
+        SIMPAN
+
+      </button>
+
+    </div>
+
+
+  </div>
+
+</div>
