@@ -750,81 +750,98 @@ function tutupModalValidasi() {
    KONFIRMASI SIMPAN
 ========================================================= */
 
-function konfirmasiSimpanPelanggan() {
+async function konfirmasiSimpanPelanggan() {
 
-  const data =
-    window.dataPelangganSementara;
+    const data =
+        window.dataPelangganSementara;
 
+    if (!data) {
+        return;
+    }
 
-  if (!data) {
+    const button =
+        document.querySelector('.modal-btn-oke');
 
-    return;
+    if (button) {
+        button.disabled = true;
+        button.textContent = 'MENYIMPAN...';
+    }
 
-  }
+    try {
 
+        const response = await fetch(API_URL, {
 
-  const button =
-    document.querySelector(
-      '.modal-btn-oke'
-    );
+            method: 'POST',
 
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
 
-  button.disabled = true;
+            body: JSON.stringify({
+                action: 'simpanDataPelanggan',
+                data: data
+            })
 
-  button.textContent =
-    'MENYIMPAN...';
+        });
 
+        if (!response.ok) {
+            throw new Error(
+                'Server tidak dapat dihubungi.'
+            );
+        }
 
-  google.script.run
+        const result =
+            await response.json();
 
-    .withSuccessHandler(function(response) {
+        console.log(
+            'Response simpan:',
+            result
+        );
 
-      button.disabled = false;
+        if (!result.success) {
+            throw new Error(
+                result.message ||
+                'Gagal menyimpan data pelanggan.'
+            );
+        }
 
-      button.textContent =
-        'OKE';
+        // Tutup modal validasi
+        tutupModalValidasi();
 
+        // Reset form
+        resetFormPelanggan();
 
-      tutupModalValidasi();
+        // Pindah ke halaman pelanggan
+        pindahKePagePelanggan();
 
+        // Ambil ulang data
+        loadPelanggan();
 
-      resetFormPelanggan();
+        alert(
+            result.message ||
+            'Data pelanggan berhasil disimpan.'
+        );
 
+    } catch (error) {
 
-      // =========================================
-      // PINDAH KE PAGE PELANGGAN
-      // =========================================
+        console.error(
+            'ERROR SIMPAN PELANGGAN:',
+            error
+        );
 
-      pindahKePagePelanggan();
+        alert(
+            error.message ||
+            'Gagal menyimpan data pelanggan.'
+        );
 
+    } finally {
 
-      // =========================================
-      // REFRESH DATA PELANGGAN
-      // =========================================
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'OKE';
+        }
 
-      loadPelanggan();
-
-
-    })
-
-
-    .withFailureHandler(function(error) {
-
-      button.disabled = false;
-
-      button.textContent =
-        'OKE';
-
-
-      alert(
-        error.message ||
-        'Gagal menyimpan data pelanggan.'
-      );
-
-    })
-
-
-    .simpanDataPelanggan(data);
+    }
 
 }
 
