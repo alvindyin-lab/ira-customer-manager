@@ -1,0 +1,347 @@
+<style>
+  /* ========================================================
+   SIDEBAR
+======================================================== */
+
+  .sidebar {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 220px;
+
+    height: 100vh;
+
+    flex-shrink: 0;
+
+    background: var(--white);
+
+    border-radius: 0px;
+
+    border:
+      1px solid #eeeeee;
+
+    display: flex;
+
+    flex-direction: column;
+
+  }
+
+  .sidebar-top {
+
+    height: 30px;
+
+    background: white;
+
+    color: black;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 35px 25px;
+
+    gap: 8px;
+
+  }
+
+  .sidebar-top-text {
+
+    font-weight: 700;
+
+    color: var(--red-main);
+
+  }
+
+  .sidebar-top-icon {
+
+    color: var(--red-main);
+
+  }
+
+
+
+
+  .navigation {
+
+    padding: 15px 13px;
+
+  }
+
+
+  .nav-item {
+
+    width: 100%;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 0 14px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #555;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+    text-align: left;
+
+    margin-bottom: 5px;
+
+  }
+
+
+  .nav-item svg {
+
+    width: 17px;
+
+    height: 17px;
+
+    stroke-width: 1.8;
+
+  }
+
+
+  .nav-item:hover {
+
+    background: #fafafa;
+
+    color:
+      var(--primary);
+
+  }
+
+
+  .nav-item.active {
+
+    background: rgba(237, 28, 36, 0.1);
+
+    color: var(--red-main);
+
+    font-weight: 700;
+
+  }
+
+
+
+  /* ========================================================
+   SIDEBAR — MOBILE BOTTOM NAVIGATION
+======================================================== */
+
+  @media (max-width: 1000px) {
+
+    /* ======================================================
+     SIDEBAR
+  ====================================================== */
+
+    .sidebar {
+      position: fixed;
+
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      width: 100%;
+      height: 110px;
+
+      z-index: 9999;
+
+      background: #ffffff;
+
+      border: none;
+      border-top: 1px solid #eeeeee;
+
+      border-radius: 0;
+
+      display: block;
+
+      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+    }
+
+
+    /* ======================================================
+     HILANGKAN HEADER SIDEBAR
+  ====================================================== */
+
+    .sidebar-top {
+      display: none;
+    }
+
+
+    /* ======================================================
+     NAVIGATION
+  ====================================================== */
+
+    .navigation {
+      width: 100%;
+      height: 100px;
+
+      padding: 0;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr 1fr;
+
+      align-items: center;
+
+      position: relative;
+    }
+
+
+    /* ======================================================
+     NAV ITEM
+  ====================================================== */
+
+    .nav-item {
+      width: 100%;
+      height: 80px;
+
+      margin: 0;
+      padding: 15px 0px;
+
+      border: none;
+      border-radius: 0;
+
+      background: transparent;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 12px;
+
+      color: #777777;
+
+      font-size: 10px;
+
+      position: relative;
+
+      cursor: pointer;
+    }
+
+
+    /* ======================================================
+     ICON
+  ====================================================== */
+
+    .nav-item i {
+      font-size: 35px;
+
+      line-height: 1;
+    }
+
+
+    /* ======================================================
+     TEXT
+  ====================================================== */
+
+    .nav-item span {
+      display: block;
+
+      font-size: 20px;
+      font-weight: 500;
+
+      line-height: 1;
+    }
+
+
+    /* ======================================================
+     URUTAN MOBILE
+
+     Dashboard | Plus | Pelanggan
+  ====================================================== */
+
+    .nav-item[data-page="dashboard"] {
+      order: 1;
+    }
+
+    .nav-item[data-page="add-pelanggan"] {
+      order: 2;
+    }
+
+    .nav-item[data-page="pelanggan"] {
+      order: 3;
+    }
+
+
+    /* ======================================================
+     ACTIVE
+  ====================================================== */
+
+    .nav-item.active {
+      background: transparent;
+
+      color: var(--red-main);
+
+      font-weight: 700;
+    }
+
+
+    /* ======================================================
+     TOMBOL PLUS
+  ====================================================== */
+
+    .nav-item[data-page="add-pelanggan"] {
+
+      width: 100px;
+      height: 100px;
+
+      justify-self: center;
+
+      align-self: start;
+
+      margin-top: -20px;
+
+      border-radius: 50%;
+
+      background: var(--red-main);
+
+      color: #ffffff;
+
+      border: 4px solid #ffffff;
+
+      box-shadow: 0 5px 15px rgba(218, 44, 37, 0.35);
+
+      z-index: 10;
+    }
+
+
+    /* ICON PLUS */
+
+    .nav-item[data-page="add-pelanggan"] i {
+      font-size: 30px;
+    }
+
+
+    /* HILANGKAN TEKS TAMBAH */
+
+    .nav-item[data-page="add-pelanggan"] span {
+      display: none;
+    }
+
+  }
+
+</style>
