@@ -1,0 +1,566 @@
+<!-- ===================================================
+PAGE DASHBOARD
+==================================================== -->
+
+<section id="dashboard" class="page active">
+
+
+  <!-- =================================================
+           STAT CARDS
+      ================================================== -->
+
+  <div class="stats">
+
+
+    <!-- TOTAL PELANGGAN -->
+
+    <div class="stat-card">
+
+      <div class="stat-content">
+
+        <div class="stat-title">
+          Total Pelanggan
+        </div>
+
+
+        <div class="stat-value" id="revenueValue">
+
+          0
+
+        </div>
+
+
+        <div class="stat-footer">
+
+          <span class="growth">
+                ↗ 12.5%
+              </span>
+
+          <span class="comparison">
+                vs last month
+              </span>
+
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-users"></i>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- AKTIF -->
+
+    <div class="stat-card">
+
+
+      <!-- <div class="stat-icon">
+
+            <i data-lucide="shopping-cart"></i>
+
+          </div> -->
+
+
+      <div class="stat-content">
+
+        <div class="stat-title">
+          Aktif
+        </div>
+
+
+        <div class="stat-value" id="ordersValue">
+
+          0
+
+        </div>
+
+
+        <div class="stat-footer">
+
+          <span class="growth">
+                ↗ 8.2%
+              </span>
+
+          <span class="comparison">
+                vs last month
+              </span>
+
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-user-check"></i>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ISOLIR -->
+
+    <div class="stat-card">
+
+
+      <!-- <div class="stat-icon">
+
+            <i data-lucide="users"></i>
+
+          </div> -->
+
+
+      <div class="stat-content">
+
+        <div class="stat-title">
+          Isolir
+        </div>
+
+
+        <div class="stat-value" id="customersValue">
+
+          0
+
+        </div>
+
+        <div class="stat-footer">
+
+          <span class="growth">
+                ↗ 14.3%
+              </span>
+
+          <span class="comparison">
+                vs last month
+              </span>
+
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-user-clock"></i>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- DISMANTLE -->
+
+    <div class="stat-card">
+
+
+      <!-- <div class="stat-icon">
+
+            <i data-lucide="wallet"></i>
+
+          </div> -->
+
+
+      <div class="stat-content">
+
+        <div class="stat-title">
+          Dismantle
+        </div>
+
+        <div class="stat-value" id="profitValue">
+
+          0
+
+        </div>
+
+        <div class="stat-footer">
+
+          <span class="growth">
+                ↗ 15.7%
+              </span>
+
+          <span class="comparison">
+                vs last month
+              </span>
+
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-user-xmark"></i>
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =================================================
+           DASHBOARD GRID
+      ================================================== -->
+
+  <div class="dashboard-grid">
+
+
+    <!-- =================================================
+             REVENUE OVERVIEW
+        ================================================== -->
+
+    <div class="panel">
+
+
+      <div class="panel-header">
+
+
+        <div class="panel-title">
+          Revenue Overview
+        </div>
+
+
+        <button class="panel-button">
+
+              This Month
+
+              <i
+                data-lucide="chevron-down"
+                style="width:11px;">
+              </i>
+
+            </button>
+
+
+      </div>
+
+
+      <div class="chart-container">
+
+        <canvas id="revenueChart">
+        </canvas>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+             SALES CATEGORY
+        ================================================== -->
+
+    <div class="panel">
+
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+          Sales by Category
+        </div>
+
+      </div>
+
+
+      <div class="donut-wrapper">
+
+
+        <canvas id="categoryChart">
+        </canvas>
+
+
+        <div class="donut-center">
+
+          <div class="donut-number">
+            62%
+          </div>
+
+          <div class="donut-label">
+            Electronics
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- CATEGORY LIST -->
+
+      <div class="category-list">
+
+
+        <div class="category-item">
+
+          <div class="category-left">
+
+            <span class="dot"></span>
+
+            Electronics
+
+          </div>
+
+          <strong>
+                62%
+              </strong>
+
+        </div>
+
+
+        <div class="category-item">
+
+          <div class="category-left">
+
+            <span class="dot light-1"></span>
+
+            Fashion
+
+          </div>
+
+          <strong>
+                21%
+              </strong>
+
+        </div>
+
+
+        <div class="category-item">
+
+          <div class="category-left">
+
+            <span class="dot light-2"></span>
+
+            Home & Living
+
+          </div>
+
+          <strong>
+                10%
+              </strong>
+
+        </div>
+
+
+        <div class="category-item">
+
+          <div class="category-left">
+
+            <span class="dot light-3"></span>
+
+            Other
+
+          </div>
+
+          <strong>
+                7%
+              </strong>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+             RECENT ACTIVITY
+        ================================================== -->
+
+    <div class="panel activity-panel">
+
+
+      <div class="panel-header">
+
+
+        <div class="panel-title">
+          Recent Activity
+        </div>
+
+
+        <div class="view-all">
+          View All
+        </div>
+
+
+      </div>
+
+
+      <div class="activity-list">
+
+
+        <!-- ACTIVITY 1 -->
+
+        <div class="activity">
+
+
+          <div class="activity-icon">
+
+            <i data-lucide="shopping-cart"></i>
+
+          </div>
+
+
+          <div class="activity-info">
+
+            <div class="activity-title">
+              New order #1258
+            </div>
+
+            <div class="activity-description">
+              John Doe • 2 min ago
+            </div>
+
+          </div>
+
+
+          <div class="activity-amount">
+            +$250
+          </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIVITY 2 -->
+
+        <div class="activity">
+
+
+          <div class="activity-icon">
+
+            <i data-lucide="user-round"></i>
+
+          </div>
+
+
+          <div class="activity-info">
+
+            <div class="activity-title">
+              New customer registered
+            </div>
+
+            <div class="activity-description">
+              Emily Smith • 15 min ago
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIVITY 3 -->
+
+        <div class="activity">
+
+
+          <div class="activity-icon">
+
+            <i data-lucide="wallet-cards"></i>
+
+          </div>
+
+
+          <div class="activity-info">
+
+            <div class="activity-title">
+              Payment received
+            </div>
+
+            <div class="activity-description">
+              Order #1257 • 1 hour ago
+            </div>
+
+          </div>
+
+
+          <div class="activity-amount">
+            +$320
+          </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIVITY 4 -->
+
+        <div class="activity">
+
+
+          <div class="activity-icon">
+
+            <i data-lucide="star"></i>
+
+          </div>
+
+
+          <div class="activity-info">
+
+            <div class="activity-title">
+              New review received
+            </div>
+
+            <div class="activity-description">
+              Product: Wireless Headphones
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIVITY 5 -->
+
+        <div class="activity">
+
+
+          <div class="activity-icon">
+
+            <i data-lucide="star"></i>
+
+          </div>
+
+
+          <div class="activity-info">
+
+            <div class="activity-title">
+              Order shipped
+            </div>
+
+            <div class="activity-description">
+              Order #1256 • 3 hours ago
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+</section>
