@@ -1,6 +1,8 @@
 <script>
   // CRUD (READ) - DATA PELANGGAN
 
+const API_URL = 'https://script.google.com/macros/s/AKfycbzJmYeonwSAWTM1It3f36B9tn_U0pUXSkolXqebzow3u-FRs7m0LeC3hW5NJHVUbG89/exec';
+
 let semuaPelanggan = [];
 
 let filteredPelanggan = [];
@@ -12,6 +14,13 @@ const perPage = 12;
 /*
 |--------------------------------------------------------------------------
 | AMBIL DATA DARI APPS SCRIPT
+|--------------------------------------------------------------------------
+*/
+
+```javascript
+/*
+|--------------------------------------------------------------------------
+| AMBIL DATA DARI APPS SCRIPT API
 |--------------------------------------------------------------------------
 */
 
@@ -31,14 +40,63 @@ function loadPelanggan() {
 
   }
 
-  google.script.run
 
-    .withSuccessHandler(function(data) {
+  fetch(
+    API_URL + '?action=getPelanggan'
+  )
+
+    .then(function(response) {
+
+      if (!response.ok) {
+
+        throw new Error(
+          'Server tidak dapat dihubungi.'
+        );
+
+      }
+
+      return response.json();
+
+    })
+
+
+    .then(function(result) {
+
+      console.log(
+        'Response dari Apps Script:',
+        result
+      );
+
+
+      // =========================================
+      // CEK RESPONSE API
+      // =========================================
+
+      if (!result.success) {
+
+        throw new Error(
+          result.message ||
+          'Gagal mengambil data pelanggan.'
+        );
+
+      }
+
+
+      // =========================================
+      // AMBIL DATA
+      // =========================================
+
+      const data =
+        Array.isArray(result.data)
+          ? result.data
+          : [];
+
 
       console.log(
         'Data pelanggan berhasil diterima:',
         data
       );
+
 
       console.log(
         'Jumlah pelanggan:',
@@ -46,28 +104,35 @@ function loadPelanggan() {
       );
 
 
+      // =========================================
+      // SIMPAN DATA
+      // =========================================
 
       semuaPelanggan =
-        Array.isArray(data)
-          ? data
-          : [];
+        data;
 
 
       filteredPelanggan =
         [...semuaPelanggan];
 
 
-      currentPage = 1;
+      currentPage =
+        1;
+
+
+      // =========================================
+      // SORT & RENDER
+      // =========================================
 
       sortPelanggan();
 
     })
 
 
-    .withFailureHandler(function(error) {
+    .catch(function(error) {
 
       console.error(
-        'ERROR GOOGLE SCRIPT:',
+        'ERROR API APPS SCRIPT:',
         error
       );
 
@@ -76,7 +141,9 @@ function loadPelanggan() {
 
         <div class="error">
 
-          <h3>Gagal mengambil data</h3>
+          <h3>
+            Gagal mengambil data
+          </h3>
 
           <p>
             ${escapeHTML(
@@ -89,12 +156,11 @@ function loadPelanggan() {
 
       `;
 
-    })
-
-
-    .getDataPelanggan();
+    });
 
 }
+```
+
 
 
 /*
