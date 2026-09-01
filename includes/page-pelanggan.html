@@ -1,0 +1,724 @@
+<!-- ===================================================
+PAGE PELANGGAN
+==================================================== -->
+
+<section id="pelanggan" class="page">
+
+  <div class="panel">
+
+    <!-- HEADER PELANGGAN -->
+
+    <div class="page-pelanggan-header">
+
+      <div>
+
+        <h2>Data Pelanggan Saya</h2>
+        <p>Menampilkan dari Database Spreadsheet</p>
+
+      </div>
+
+      <div class="page-pelanggan-header-tools">
+
+        <div class="search-box">
+
+          <span>⌕</span>
+
+          <input
+                type="text"
+                id="searchPelanggan"
+                placeholder="Cari pelanggan..."
+                oninput="filterPelanggan()"
+              >
+
+        </div>
+
+        <!-- URUTAN DATA -->
+
+        <select id="sortPelanggan" onchange="sortPelanggan()">
+
+          <option value="terbaru">Terbaru</option>
+          
+          <option value="az">A-Z</option>
+          
+          </select>
+
+        <!-- ARAH URUTAN -->
+
+        <select id="sortDirection" onchange="sortPelanggan()">
+
+          <option value="asc">Atas ke Bawah</option>
+          
+          <option value="desc">Bawah ke Atas</option>
+          
+          </select>
+
+        <!-- FILTER -->
+
+        <select id="filterStatus" onchange="filterPelanggan()">
+
+            <option value="">Semua Status</option>
+
+              <option value="Aktif">
+                Aktif
+              </option>
+
+              <option value="Pending">
+                Isolir
+              </option>
+
+              <option value="Nonaktif">
+                Dismantle
+              </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================
+    CUSTOMER GRID - SCROLL AREA
+    ================================================= -->
+
+    <div class="customer-scroll-area">
+
+      <div id="customerGrid" class="customer-grid">
+
+        <!-- Data pelanggan akan dimasukkan
+        JavaScript ke dalam container ini.-->
+
+      </div>
+
+    </div>
+
+    <!-- ================================================
+    TEMPLATE CARD PELANGGAN
+    ================================================= -->
+
+    <template id="customerCardTemplate">
+
+      <article class="customer-card">
+
+        <div class="customer-top">
+
+          <div class="avatar">
+            <i class="fa-regular fa-user"></i>
+            <!-- <span class="customer-initial"></span> -->
+          </div>
+
+
+          <div class="customer-name">
+
+            <!-- CUSTOMER ID -->
+
+            <p class="customer-id"></p>
+
+            <!-- NAMA LENGKAP -->
+
+            <h3 class="customer-full-name"></h3>
+
+          </div>
+
+
+          <button type="button" class="more-button">
+            ⋮
+          </button>
+
+        </div>
+
+
+
+        <div class="customer-details">
+
+          <!-- NOMOR WHATSAPP -->
+
+          <div class="detail">
+
+            <span class="icon whatsapp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </span>
+
+            <span class="customer-whatsapp"></span>
+
+          </div>
+
+          <!-- NOMOR INDUK KEPENDUDUKAN (NIK) -->
+
+          <div class="detail">
+
+            <span class="icon nik">
+              <i class="fa-regular fa-address-card"></i>
+            </span>
+
+            <span class="customer-nik"></span>
+
+          </div>
+
+          <!-- WILAYAH -->
+
+          <div class="detail">
+
+            <span class="icon location">
+              <i class="fa-solid fa-location-dot"></i>
+            </span>
+
+            <span class="customer-wilayah"></span>
+
+          </div>
+
+        </div>
+
+
+        <div class="customer-footer">
+
+          <span class="cpe customer-cpe"></span>
+
+          <span class="status customer-status"></span>
+
+        </div>
+
+      </article>
+
+    </template>
+
+
+    <!-- ================================================
+    PAGINATION
+    ================================================= -->
+
+    <div class="pagination">
+
+      <span id="dataInfo">
+        0 data pelanggan
+      </span>
+
+
+      <div>
+
+        <button
+          type="button"
+          onclick="previousPage()"
+        >
+          ‹
+        </button>
+
+
+        <span id="pageNumber">
+          1 / 1
+        </span>
+
+
+        <button
+          type="button"
+          onclick="nextPage()"
+        >
+          ›
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ===================================================
+MODAL DETAIL PELANGGAN
+==================================================== -->
+
+<div id="modalDetailPelanggan" class="customer-detail-overlay">
+
+  <div class="customer-detail-modal">
+
+    <!-- ================================================
+    HEADER MODAL
+    ================================================= -->
+
+    <div class="customer-detail-header">
+
+      <!-- PROFIL -->
+
+      <div class="customer-detail-profile">
+
+        <div class="customer-detail-avatar">
+
+          <i class="fa-regular fa-user"></i>
+
+        </div>
+
+
+        <div class="customer-detail-profile-info">
+
+          <span id="detailCustomerId" class="customer-detail-id"></span>
+
+          <h2 id="detailNama" class="customer-detail-name">
+            -
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <!-- EDIT -->
+
+      <button
+        type="button"
+        class="customer-detail-edit"
+        onclick="editPelangganDariModal()"
+        title="Edit Data"
+      >
+
+        <i class="fa-solid fa-pen"></i>
+
+      </button>
+
+    </div>
+
+
+    <!-- ================================================
+    DETAIL DATA
+    ================================================= -->
+
+    <div class="customer-detail-body">
+
+
+      <!-- ==============================================
+      BARIS 1
+      NOMOR WHATSAPP | NOMOR TERDAFTAR
+      =============================================== -->
+
+      <div class="customer-detail-grid two-column">
+
+
+        <!-- NOMOR WHATSAPP -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Nomor Whatsapp
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-brands fa-whatsapp detail-icon whatsapp"></i>
+
+            <span id="detailWhatsapp">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- NOMOR TERDAFTAR -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Nomor Terdaftar
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-solid fa-mobile-screen-button detail-icon phone"></i>
+
+            <span id="detailNomorTerdaftar">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==============================================
+      BARIS 2
+      SERIAL NUMBER | NIK
+      =============================================== -->
+
+      <div class="customer-detail-grid two-column">
+
+
+        <!-- SERIAL NUMBER -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Serial Number
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-solid fa-desktop detail-icon blue"></i>
+
+            <span id="detailSerialNumber">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- NIK -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            NIK (Nomor Induk Kependudukan)
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-regular fa-address-card detail-icon blue"></i>
+
+            <span id="detailNik">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==============================================
+      BARIS 3
+      KECAMATAN | DESA | RT/RW
+      =============================================== -->
+
+      <div class="customer-detail-grid three-column">
+
+
+        <!-- KECAMATAN -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Kecamatan
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-solid fa-building detail-icon purple"></i>
+
+            <span id="detailKecamatan">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- KELURAHAN / DESA -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Kelurahan/Desa
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-solid fa-location-dot detail-icon purple"></i>
+
+            <span id="detailDesa">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- RT/RW -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            RT/RW
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-solid fa-users detail-icon purple"></i>
+
+            <span id="detailRTRW">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==============================================
+      ALAMAT LENGKAP
+      =============================================== -->
+
+      <div class="customer-detail-grid four-column">
+
+        <div class="customer-detail-item customer-detail-address">
+
+          <div class="customer-detail-item-title">
+            Alamat Lengkap (Patokan Rumah)
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="fa-solid fa-house detail-icon purple"></i>
+
+            <span id="detailAlamat">
+            -
+          </span>
+
+          </div>
+
+        </div>
+
+        <!-- KOORDINAT -->
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Koordinat
+          </div>
+
+          <div class="customer-detail-item-value">
+
+            <i class="detail-icon fa-solid fa-location-dot"></i>
+
+            <span id="detailKoordinat">-</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==============================================
+      BARIS TERAKHIR
+      DIBUAT | UPDATE | STATUS | CPE
+      =============================================== -->
+
+      <div class="customer-detail-grid five-column">
+
+
+        <!-- DIBUAT PADA -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Dibuat Pada
+          </div>
+
+          <div class="customer-detail-item-value date-value">
+
+            <i class="fa-regular fa-calendar detail-icon red"></i>
+
+            <span id="detailDibuatPada">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- DIUPDATE TERAKHIR -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Diupdate Terakhir
+          </div>
+
+          <div class="customer-detail-item-value date-value">
+
+            <i class="fa-regular fa-calendar detail-icon orange"></i>
+
+            <span id="detailDiupdateTerakhir">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Status
+          </div>
+
+          <div class="customer-detail-item-value badge-container">
+
+            <span
+              id="detailStatus"
+              class="detail-status"
+            >
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- JENIS CPE -->
+
+        <div class="customer-detail-item">
+
+          <div class="customer-detail-item-title">
+            Jenis CPE
+          </div>
+
+          <div class="customer-detail-item-value badge-container">
+
+            <span
+              id="detailCpe"
+              class="detail-cpe"
+            >
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- ================================================
+    FOOTER MODAL
+    ================================================= -->
+
+    <div class="customer-detail-footer">
+
+      <button
+        type="button"
+        class="customer-detail-close"
+        onclick="tutupModalDetailPelanggan()"
+      >
+
+        Tutup
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
