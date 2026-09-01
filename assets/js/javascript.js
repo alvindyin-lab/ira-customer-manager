@@ -1,5 +1,3 @@
-<script>
-
 // ===== WAKTU REAL TIME =======
 
 function tampilkanWaktu() {
@@ -123,6 +121,3 @@ document.addEventListener("DOMContentLoaded", function () {
 //   );
 
 // });
-
-
-</script>
