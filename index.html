@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+
+  <!-- WAJIB UNTUK RESPONSIVE MOBILE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IRA Customer Manager</title>
+
+  <?!= include('style') ?>
+  <?!= include('sidebar.css') ?>
+  <?!= include('topbar.css') ?>
+  <?!= include('page-dashboard.css') ?>
+  <?!= include('page-pelanggan.css') ?>
+  <?!= include('page-tambah-pelanggan.css') ?>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+  <div class="app">
+
+    <?!= include('sidebar') ?>
+
+    <main class="content">
+
+      <?!= include('topbar') ?>
+
+      <?!= include('page-dashboard') ?>
+
+      <?!= include('page-pelanggan') ?>
+
+      <?!= include('page-tambah-pelanggan') ?>
+
+    </main>
+
+  </div>
+
+  <?!= include('javascript'); ?>
+
+  <?!= include('javascript-create'); ?>
+
+  <?!= include('javascript-read'); ?>
+</body>
+
+</html>
+
+<!-- <script>
+  window.addEventListener('load', function () {
+    alert(
+      'APP VIEWPORT\n' +
+      'Width: ' + window.innerWidth + '\n' +
+      'Height: ' + window.innerHeight
+    );
+  });
+
+  document.querySelector('meta[name="viewport"]')
+</script> -->
