@@ -1,30 +1,119 @@
-fetch('includes/sidebar.html')
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('sidebar').innerHTML = html;
-    });
+/* =========================================================
+   LOAD LAYOUT
+========================================================= */
+
+async function loadLayout() {
+
+    try {
+
+        // ================================================
+        // SIDEBAR
+        // ================================================
+
+        const sidebar =
+            await fetch('includes/sidebar.html');
+
+        if (!sidebar.ok) {
+            throw new Error(
+                'Gagal memuat sidebar.html'
+            );
+        }
+
+        document.getElementById('sidebar').innerHTML =
+            await sidebar.text();
 
 
-fetch('includes/topbar.html')
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('topbar').innerHTML = html;
-    });
+        // ================================================
+        // TOPBAR
+        // ================================================
 
-fetch('includes/page-dashboard.html')
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('dashboard').innerHTML = html;
-    });
+        const topbar =
+            await fetch('includes/topbar.html');
 
-fetch('includes/page-pelanggan.html')
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('pelanggan').innerHTML = html;
-    });
+        if (!topbar.ok) {
+            throw new Error(
+                'Gagal memuat topbar.html'
+            );
+        }
 
-fetch('includes/page-tambah-pelanggan.html')
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('add-pelanggan').innerHTML = html;
-    });
+        document.getElementById('topbar').innerHTML =
+            await topbar.text();
+
+
+        // ================================================
+        // DASHBOARD
+        // ================================================
+
+        const dashboard =
+            await fetch('includes/page-dashboard.html');
+
+        if (!dashboard.ok) {
+            throw new Error(
+                'Gagal memuat page-dashboard.html'
+            );
+        }
+
+        document.getElementById('dashboard').innerHTML =
+            await dashboard.text();
+
+
+        // ================================================
+        // PELANGGAN
+        // ================================================
+
+        const pelanggan =
+            await fetch('includes/page-pelanggan.html');
+
+        if (!pelanggan.ok) {
+            throw new Error(
+                'Gagal memuat page-pelanggan.html'
+            );
+        }
+
+        document.getElementById('pelanggan').innerHTML =
+            await pelanggan.text();
+
+
+        // ================================================
+        // TAMBAH PELANGGAN
+        // ================================================
+
+        const addPelanggan =
+            await fetch('includes/page-tambah-pelanggan.html');
+
+        if (!addPelanggan.ok) {
+            throw new Error(
+                'Gagal memuat page-tambah-pelanggan.html'
+            );
+        }
+
+        document.getElementById('add-pelanggan').innerHTML =
+            await addPelanggan.text();
+
+
+        // ================================================
+        // SEMUA LAYOUT SELESAI
+        // ================================================
+
+        console.log(
+            '✅ Semua layout berhasil dimuat.'
+        );
+
+        document.dispatchEvent(
+            new Event('layoutLoaded')
+        );
+
+    } catch (error) {
+
+        console.error(
+            '❌ Gagal memuat layout:',
+            error
+        );
+
+    }
+
+}
+
+
+// Jalankan loader
+loadLayout();
