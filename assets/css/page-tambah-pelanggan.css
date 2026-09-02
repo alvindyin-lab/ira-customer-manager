@@ -1021,94 +1021,127 @@
    RESPONSIVE MOBILE
 ======================================================== */
 
-  @media (max-width: 1000px) {
+  @media (max-width: 600px) {
 
     /* CONTENT KHUSUS SAAT TAMBAH PELANGGAN AKTIF */
 
     body:has(#add-pelanggan.active) .content {
+    height: 100vh;
+    min-height: 0;
 
-      height: 100vh;
+    padding-bottom: 110px;
 
-      min-height: 0;
+    box-sizing: border-box;
 
-      padding-bottom: 110px;
+    display: flex;
+    flex-direction: column;
 
-      box-sizing: border-box;
+}
 
-      overflow: hidden;
+    body:has(#add-pelanggan.active) #add-pelanggan {
+    width: 100%;
 
-      display: flex;
+    height: auto;
+    min-height: 0;
 
-      flex-direction: column;
+    flex: 1 1 0;
 
-    }
+    margin: 5px 0 0 0;
+    padding: 0;
 
-    /* PAGE TAMBAH PELANGGAN */
+    box-sizing: border-box;
 
-    #add-pelanggan {
+    overflow-x: hidden;
+    overflow-y: auto;
 
-      width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
 
-      flex: 1;
 
-      min-height: 0;
+    body:has(#add-pelanggan.active) .tambah-pelanggan-container {
+    width: 100%;
 
-      height: auto;
+    height: auto;
+    min-height: max-content;
 
-      margin: 0;
+    margin: 0;
 
-      padding-right: 0px;
+    box-sizing: border-box;
 
-      padding-left: 0px;
+    display: flex;
+    flex-direction: column;
+}
 
-      box-sizing: border-box;
+  body:has(#add-pelanggan.active) .tambah-pelanggan-panel {
+    width: 100%;
 
-      overflow-y: auto;
+    height: auto;
+    min-height: max-content;
 
-      overflow-x: hidden;
+    flex: none;
 
-    }
+    box-sizing: border-box;
 
-    #add-pelanggan .form-header {
+    padding: 15px;
+}
 
-      font-size: 23px;
+body:has(#add-pelanggan.active) #formTambahPelanggan {
+    width: 100%;
 
-    }
+    height: auto;
+    min-height: max-content;
 
-    #add-pelanggan .form-grid {
+    flex: none;
 
-      display: grid;
+    box-sizing: border-box;
 
-      grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+}
 
-      row-gap: 15px;
 
-      column-gap: 0;
+    body:has(#add-pelanggan.active) .form-grid {
+    width: 100%;
 
-      align-content: start;
+    height: auto;
+    min-height: max-content;
 
-      flex: none;
+    flex: none;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    row-gap: 15px;
+    column-gap: 0;
+
+    align-content: start;
+}
+
+    .tambah-page-header {
+
+        gap: 10px;
 
     }
 
     .tambah-page-title h2 {
 
-      font-size: 32px;
+      font-size: 18px;
 
     }
 
 
     .tambah-page-title p {
 
-      font-size: 20px;
+      font-size: 12px;
 
     }
 
     .tambah-page-icon {
 
-      width: 60px;
+      width: 55px;
 
-      height: 60px;
+      height: 55px;
 
       border-radius: 7px;
 
@@ -1117,15 +1150,22 @@
 
     .tambah-page-icon i {
 
-      font-size: 30px;
+      font-size: 25px;
 
     }
 
+    #add-pelanggan .form-header {
+
+      gap: 10px;
+
+    }
+    
+
     .form-header>i {
 
-      font-size: 35px;
+      font-size: 18px;
 
-      width: 37px;
+      width: 20px;
 
       text-align: center;
 
@@ -1133,7 +1173,7 @@
 
     .form-header h3 {
 
-      font-size: 27px;
+      font-size: 15px;
 
     }
 
@@ -1147,7 +1187,7 @@
 
     .form-group label {
 
-      font-size: 27px;
+      font-size: 15px;
 
       font-weight: 600;
 
@@ -1169,7 +1209,7 @@
 
       color: #333;
 
-      font-size: 27px;
+      font-size: 15px;
 
       outline: none;
 
@@ -1180,7 +1220,7 @@
     #add-pelanggan .form-group input,
     #add-pelanggan .form-group select {
 
-      padding: 25px 18px;
+      padding: 15px 15px;
 
     }
 
@@ -1205,7 +1245,7 @@
 
       font-family: inherit;
 
-      font-size: 27px;
+      font-size: 15px;
 
       line-height: normal;
 
@@ -1216,6 +1256,32 @@
       box-sizing: border-box;
 
     }
+
+    /* ========================================================
+   FIX MOBILE — JENIS CPE & ALAMAT
+======================================================== */
+
+/* JENIS CPE */
+#add-pelanggan #inputCpe {
+    width: 100%;
+    height: 44px;
+    padding: 0 13px;
+    font-size: 15px;
+    line-height: normal;
+    box-sizing: border-box;
+}
+
+
+/* ALAMAT LENGKAP */
+#add-pelanggan #inputAlamat {
+    height: 110px;
+    min-height: 110px;
+    padding: 10px 13px;
+    font-size: 15px;
+    line-height: 1.4;
+    box-sizing: border-box;
+    resize: none;
+}
 
     #add-pelanggan #inputDesa:disabled {
 
@@ -1271,6 +1337,139 @@
 
     }
 
+      /* ========================================================
+   INFO
+======================================================== */
 
+.form-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 14px;
+    box-sizing: border-box;
+}
+
+  .form-info {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    box-sizing: border-box;
+
+    gap: 10px;
+
+    padding: 11px 14px;
+
+    border-radius: 8px;
+
+    background: #fff0f0;
+
+    color: #bd4540;
+
+    font-size: 10px;
 
   }
+
+
+  .form-info i {
+
+    font-size: 14px;
+
+  }
+
+
+  /* ========================================================
+   ACTION BUTTON
+======================================================== */
+
+  .form-actions {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+  }
+
+
+  .btn-batal,
+  .btn-simpan {
+
+    height: 35px;
+
+    padding: 0 18px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex: 1;
+
+    width: 100%;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    transition: .2s ease;
+
+  }
+
+
+  .btn-batal {
+
+    background: #fff;
+
+    border: 1px solid #e1e4e8;
+
+    color: #444;
+
+  }
+
+
+  .btn-batal:hover {
+
+    background: #f7f7f7;
+
+  }
+
+
+  .btn-simpan {
+
+    background: var(--red-main);
+
+    border: 1px solid var(--red-main);
+
+    color: #fff;
+
+  }
+
+
+  .btn-simpan:hover {
+
+    background: var(--red-second);
+
+  }
+
+}
