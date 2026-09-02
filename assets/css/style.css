@@ -217,13 +217,7 @@
       background: #d5d7da;
       border-radius: 10px;
     }
-
-    body:has(#pelanggan) .content {
-
-      overflow: hidden;
-
-    }
-
+    
     body:has(#pelanggan.active) .content {
 
       height: 100vh;
