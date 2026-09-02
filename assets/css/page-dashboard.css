@@ -511,7 +511,7 @@
 
       grid-template-columns: repeat(2, minmax(0, 1fr));
 
-      gap: 25px;
+      gap: 10px;
 
     }
 
@@ -524,11 +524,11 @@
 
       position: relative;
 
-      min-height: 200px;
+      min-height: 80px;
 
       padding: 0 35px;
 
-      border-radius: 25px;
+      border-radius: 10px;
 
       box-sizing: border-box;
 
@@ -540,7 +540,7 @@
 
       position: absolute;
 
-      left: 30px;
+      left: 10px;
 
       top: 50%;
 
@@ -561,23 +561,21 @@
 
       font-size: 9px;
 
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
 
     .stat-value {
 
-      font-size: 46px;
+      font-size: 20px;
 
-      line-height: 1.1;
-
-      margin-bottom: 15px;
+      margin-bottom: 5px;
     }
 
 
     .stat-footer {
 
-      font-size: 18px;
+      font-size: 8px;
 
       gap: 4px;
 
@@ -588,12 +586,12 @@
 
       position: absolute;
 
-      right: 30px;
+      right: 10px;
 
-      bottom: calc(50% - 65px);
+      bottom: calc(50% - 25px);
 
-      width: 60px;
-      height: 60px;
+      width: 30px;
+      height: 30px;
 
       border-radius: 50%;
 
@@ -607,7 +605,7 @@
     }
 
     .stat-icon i {
-      font-size: 30px;
+      font-size: 15px;
       line-height: 1;
     }
 
