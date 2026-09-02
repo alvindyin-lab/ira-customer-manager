@@ -192,7 +192,7 @@
 
     .navigation {
       width: 100%;
-      height: 100px;
+      height: 100%;
 
       padding: 0;
 
@@ -212,34 +212,34 @@
   ====================================================== */
 
     .nav-item {
-      width: 100%;
-      height: 80px;
+  width: 100%;
+  height: 70px;
 
-      margin: 0;
-      padding: 15px 0px;
+  margin: 0;
+  padding: 0;
 
-      border: none;
-      border-radius: 0;
+  border: none;
+  border-radius: 0;
 
-      background: transparent;
+  background: transparent;
 
-      display: flex;
+  display: flex;
 
-      flex-direction: column;
+  flex-direction: column;
 
-      align-items: center;
-      justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-      gap: 12px;
+  gap: 7px;
 
-      color: #777777;
+  color: #777777;
 
-      font-size: 10px;
+  font-size: 10px;
 
-      position: relative;
+  position: relative;
 
-      cursor: pointer;
-    }
+  cursor: pointer;
+}
 
 
     /* ======================================================
@@ -247,9 +247,7 @@
   ====================================================== */
 
     .nav-item i {
-      font-size: 15px;
-
-      line-height: 1;
+      font-size: 25px;
     }
 
 
@@ -260,10 +258,9 @@
     .nav-item span {
       display: block;
 
-      font-size: 5px;
+      font-size: 10px;
       font-weight: 500;
 
-      line-height: 1;
     }
 
 
@@ -305,8 +302,8 @@
 
     .nav-item[data-page="add-pelanggan"] {
 
-      width: 100px;
-      height: 100px;
+      width: 75px;
+      height: 75px;
 
       justify-self: center;
 
