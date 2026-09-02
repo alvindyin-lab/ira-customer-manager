@@ -1,7 +1,7 @@
-* =========================================================
-   DATA WILAYAH
-   SILAKAN EDIT SENDIRI
-========================================================= */
+// * =========================================================
+//    DATA WILAYAH
+//    SILAKAN EDIT SENDIRI
+// ========================================================= */
 
 const DATA_WILAYAH = {
 
@@ -454,18 +454,36 @@ function loadKecamatan() {
    KETIKA KECAMATAN DIPILIH
 ========================================================= */
 
+/* =========================================================
+   KETIKA KECAMATAN DIPILIH
+========================================================= */
+
 function ubahKecamatan() {
 
-  const kecamatan =
+  const selectKecamatan =
     document.getElementById(
       'inputKecamatan'
-    ).value;
-
+    );
 
   const selectDesa =
     document.getElementById(
       'inputDesa'
     );
+
+
+  if (!selectKecamatan || !selectDesa) {
+
+    console.error(
+      '❌ Element Kecamatan / Desa tidak ditemukan.'
+    );
+
+    return;
+
+  }
+
+
+  const kecamatan =
+    selectKecamatan.value;
 
 
   selectDesa.innerHTML = `
@@ -965,14 +983,17 @@ function resetFormPelanggan() {
 ========================================================= */
 
 document.addEventListener(
-  'DOMContentLoaded',
+  'layoutLoaded',
   function() {
+
+    console.log(
+      '✅ Memuat data Kecamatan...'
+    );
 
     loadKecamatan();
 
   }
 );
-
 
 
 
