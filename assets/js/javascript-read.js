@@ -1,5 +1,5 @@
 
-  // CRUD (READ) - DATA PELANGGAN
+// CRUD (READ) - DATA PELANGGAN
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbzJmYeonwSAWTM1It3f36B9tn_U0pUXSkolXqebzow3u-FRs7m0LeC3hW5NJHVUbG89/exec';
 
@@ -22,7 +22,11 @@ const perPage = 12;
 |--------------------------------------------------------------------------
 */
 
-function loadPelanggan() {
+// function loadPelanggan() {
+
+async function loadPelanggan() {
+
+  console.log('🔥 LOAD PELANGGAN MASUK KE FUNGSI');
 
   const container =
     document.getElementById('customerGrid');
@@ -38,12 +42,29 @@ function loadPelanggan() {
 
   }
 
+  if (!container) {
 
-  fetch(
-    API_URL + '?action=getPelanggan'
-  )
+    console.error(
+      'Element #customerGrid tidak ditemukan.'
+    );
 
-    .then(function(response) {
+    console.error(
+      '❌ loadPelanggan() berhenti karena customerGrid belum tersedia.'
+    );
+
+    return;
+
+  }
+
+  console.log(
+    '🚀 Menjalankan fetch data pelanggan...'
+  );
+
+
+  return fetch(API_URL + '?action=getPelanggan')
+
+
+    .then(function (response) {
 
       if (!response.ok) {
 
@@ -58,7 +79,7 @@ function loadPelanggan() {
     })
 
 
-    .then(function(result) {
+    .then(function (result) {
 
       console.log(
         'Response dari Apps Script:',
@@ -114,8 +135,13 @@ function loadPelanggan() {
         [...semuaPelanggan];
 
 
-      currentPage =
-        1;
+      // Pertahankan halaman pagination yang sedang aktif
+      if (currentPage > Math.ceil(filteredPelanggan.length / perPage)) {
+        currentPage = Math.max(
+          1,
+          Math.ceil(filteredPelanggan.length / perPage)
+        );
+      }
 
 
       // =========================================
@@ -127,7 +153,7 @@ function loadPelanggan() {
     })
 
 
-    .catch(function(error) {
+    .catch(function (error) {
 
       console.error(
         'ERROR API APPS SCRIPT:',
@@ -145,9 +171,9 @@ function loadPelanggan() {
 
           <p>
             ${escapeHTML(
-              error.message ||
-              'Terjadi kesalahan pada server.'
-            )}
+        error.message ||
+        'Terjadi kesalahan pada server.'
+      )}
           </p>
 
         </div>
@@ -180,7 +206,7 @@ function filterPelanggan() {
       .value;
 
 
-  filteredPelanggan = semuaPelanggan.filter(function(customer) {
+  filteredPelanggan = semuaPelanggan.filter(function (customer) {
 
     const searchable = `
 
@@ -213,9 +239,9 @@ function filterPelanggan() {
   });
 
 
-currentPage = 1;
+  currentPage = 1;
 
-sortPelanggan();
+  sortPelanggan();
 
 }
 
@@ -278,7 +304,7 @@ function renderPelanggan() {
   }
 
 
-  data.forEach(function(customer) {
+  data.forEach(function (customer) {
 
     const card =
       createCustomerCard(customer);
@@ -353,8 +379,8 @@ function createCustomerCard(customer) {
 
 
   card
-    .querySelector('.customer-nik')
-    .textContent = customer.nik;
+    .querySelector('.customer-serialnumber')
+    .textContent = customer.serialnumber;
 
 
   card
@@ -422,7 +448,7 @@ function createCustomerCard(customer) {
 
     moreButton.addEventListener(
       'click',
-      function() {
+      function () {
 
         bukaModalDetailPelanggan(
           customer
@@ -685,7 +711,7 @@ function tutupModalDetailPelanggan() {
 
 document.addEventListener(
   'click',
-  function(event) {
+  function (event) {
 
     const modal =
       document.getElementById(
@@ -717,7 +743,7 @@ document.addEventListener(
 
 document.addEventListener(
   'keydown',
-  function(event) {
+  function (event) {
 
     if (
       event.key === 'Escape'
@@ -749,16 +775,30 @@ document.addEventListener(
 // =====================================================
 
 document.addEventListener(
-    'layoutLoaded',
-    function() {
+  'layoutLoaded',
+  function () {
 
-        console.log(
-            '✅ javascript-read.js siap.'
-        );
+    console.log(
+      '✅ javascript-read.js siap.'
+    );
 
-        loadPelanggan();
+    console.log(
+      '🔎 CEK customerGrid:',
+      document.getElementById('customerGrid')
+    );
 
-    }
+    console.log(
+      '🔎 CEK modalDetailPelanggan:',
+      document.getElementById('modalDetailPelanggan')
+    );
+
+    console.log(
+      '🔎 Menjalankan loadPelanggan()...'
+    );
+
+    loadPelanggan();
+
+  }
 );
 
 // =====================================================
@@ -777,7 +817,7 @@ function updatePagination() {
 
   document.getElementById('pageNumber')
     .textContent =
-      `${currentPage} / ${totalPages || 1}`;
+    `${currentPage} / ${totalPages || 1}`;
 
 
   const start =
@@ -795,7 +835,7 @@ function updatePagination() {
 
   document.getElementById('dataInfo')
     .innerHTML =
-      `Menampilkan <strong>${start}</strong> - <strong>${end}</strong> dari <strong>${total}</strong> data`;
+    `Menampilkan <strong>${start}</strong> - <strong>${end}</strong> dari <strong>${total}</strong> data`;
 
 }
 
@@ -855,7 +895,7 @@ function sortPelanggan() {
   const direction =
     document.getElementById('sortDirection').value;
 
-  filteredPelanggan.sort(function(a, b) {
+  filteredPelanggan.sort(function (a, b) {
 
     let result = 0;
 
@@ -906,7 +946,7 @@ function sortPelanggan() {
 
   });
 
-  currentPage = 1;
+  // currentPage = 1;
 
   renderPelanggan();
 }
