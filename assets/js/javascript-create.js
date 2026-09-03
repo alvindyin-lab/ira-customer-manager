@@ -603,7 +603,8 @@ function submitFormPelanggan(event) {
 
 
   // ================================================
-  // VALIDASI FRONTEND
+  // VALIDASI FRONTEND - 
+  // YANG MENENTUKAN WAJIB ATAU TIDAKNYA
   // ================================================
 
   if (!nama) {
@@ -624,22 +625,22 @@ function submitFormPelanggan(event) {
   }
 
 
-  if (!nik) {
+  // if (!nik) {
 
-    alert('NIK wajib diisi.');
+  //   alert('NIK wajib diisi.');
 
-    return;
+  //   return;
 
-  }
+  // }
 
 
-  if (!/^\d{16}$/.test(nik)) {
+  // if (!/^\d{16}$/.test(nik)) {
 
-    alert('NIK harus terdiri dari 16 digit.');
+  //   alert('NIK harus terdiri dari 16 digit.');
 
-    return;
+  //   return;
 
-  }
+  // }
 
 
   if (!kecamatan) {
@@ -768,101 +769,299 @@ function tutupModalValidasi() {
    KONFIRMASI SIMPAN
 ========================================================= */
 
+/* =========================================================
+   KONFIRMASI SIMPAN
+========================================================= */
+
 async function konfirmasiSimpanPelanggan() {
 
-    const data =
-        window.dataPelangganSementara;
+  const data =
+    window.dataPelangganSementara;
 
-    if (!data) {
-        return;
+
+  if (!data) {
+
+    alert(
+      'Data pelanggan tidak ditemukan.'
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.querySelector(
+      '.modal-btn-oke'
+    );
+
+
+  if (button) {
+
+    button.disabled = true;
+
+    button.textContent =
+      'MENYIMPAN...';
+
+  }
+
+
+  try {
+
+    console.log(
+      '📤 Data yang dikirim:',
+      data
+    );
+
+
+    /* =========================================
+       DATA DIUBAH MENJADI PARAMETER GET
+       
+       Tidak menggunakan POST lagi karena
+       frontend berada di GitHub Pages.
+    ========================================= */
+
+    const params =
+      new URLSearchParams();
+
+
+    params.set(
+      'action',
+      'simpanDataPelanggan'
+    );
+
+
+    params.set(
+      'data',
+      JSON.stringify(data)
+    );
+
+
+    const response =
+      await fetch(
+        API_URL +
+        '?' +
+        params.toString(),
+        {
+          method: 'GET',
+          cache: 'no-store'
+        }
+      );
+
+
+    /* =========================================
+       CEK HTTP RESPONSE
+    ========================================= */
+
+    if (!response.ok) {
+
+      throw new Error(
+        'Server tidak dapat dihubungi.'
+      );
+
     }
 
-    const button =
-        document.querySelector('.modal-btn-oke');
+
+    /* =========================================
+       BACA RESPONSE APPS SCRIPT
+    ========================================= */
+
+    const result =
+      await response.json();
+
+
+    console.log(
+      '📥 Response simpan:',
+      result
+    );
+
+
+    /* =========================================
+       CEK HASIL DARI BACKEND
+    ========================================= */
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        'Gagal menyimpan data pelanggan.'
+      );
+
+    }
+
+
+    /* =========================================
+       VERIFIKASI CUSTOMER ID
+       
+       Memastikan benar-benar sudah masuk
+       Spreadsheet.
+    ========================================= */
+
+    if (
+      result.customerId
+    ) {
+
+      let berhasilVerifikasi =
+        false;
+
+
+      for (
+        let percobaan = 1;
+        percobaan <= 5;
+        percobaan++
+      ) {
+
+        try {
+
+          const verifyResponse =
+            await fetch(
+
+              API_URL +
+              '?' +
+              new URLSearchParams({
+
+                action:
+                  'verifyPelanggan',
+
+                customerId:
+                  result.customerId
+
+              }).toString(),
+
+              {
+                method: 'GET',
+                cache: 'no-store'
+              }
+
+            );
+
+
+          if (
+            verifyResponse.ok
+          ) {
+
+            const verifyResult =
+              await verifyResponse.json();
+
+
+            console.log(
+              '🔎 Verifikasi penyimpanan:',
+              verifyResult
+            );
+
+
+            if (
+              verifyResult.success &&
+              verifyResult.exists
+            ) {
+
+              berhasilVerifikasi =
+                true;
+
+              break;
+
+            }
+
+          }
+
+        } catch (
+          verifyError
+        ) {
+
+          console.warn(
+            'Verifikasi percobaan ' +
+            percobaan +
+            ' gagal:',
+            verifyError
+          );
+
+        }
+
+
+        /* Tunggu sebelum mencoba lagi */
+
+        await new Promise(
+          function(resolve) {
+
+            setTimeout(
+              resolve,
+              500
+            );
+
+          }
+        );
+
+      }
+
+
+      if (
+        !berhasilVerifikasi
+      ) {
+
+        throw new Error(
+          'Data belum dapat diverifikasi di Spreadsheet.'
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       BERHASIL
+    ========================================= */
+
+    tutupModalValidasi();
+
+
+    resetFormPelanggan();
+
+
+    pindahKePagePelanggan();
+
+
+    /* =========================================
+       LOAD ULANG DATA
+    ========================================= */
+
+    await loadPelanggan();
+
+
+    // alert(
+    //   result.message ||
+    //   'Data pelanggan berhasil disimpan.'
+    // );
+
+
+  } catch (error) {
+
+    console.error(
+      'ERROR SIMPAN PELANGGAN:',
+      error
+    );
+
+
+    alert(
+      error.message ||
+      'Gagal menyimpan data pelanggan.'
+    );
+
+
+  } finally {
 
     if (button) {
-        button.disabled = true;
-        button.textContent = 'MENYIMPAN...';
-    }
 
-    try {
+      button.disabled =
+        false;
 
-        const response = await fetch(API_URL, {
-
-            method: 'POST',
-
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
-
-            body: JSON.stringify({
-                action: 'simpanDataPelanggan',
-                data: data
-            })
-
-        });
-
-        if (!response.ok) {
-            throw new Error(
-                'Server tidak dapat dihubungi.'
-            );
-        }
-
-        const result =
-            await response.json();
-
-        console.log(
-            'Response simpan:',
-            result
-        );
-
-        if (!result.success) {
-            throw new Error(
-                result.message ||
-                'Gagal menyimpan data pelanggan.'
-            );
-        }
-
-        // Tutup modal validasi
-        tutupModalValidasi();
-
-        // Reset form
-        resetFormPelanggan();
-
-        // Pindah ke halaman pelanggan
-        pindahKePagePelanggan();
-
-        // Ambil ulang data
-        loadPelanggan();
-
-        alert(
-            result.message ||
-            'Data pelanggan berhasil disimpan.'
-        );
-
-    } catch (error) {
-
-        console.error(
-            'ERROR SIMPAN PELANGGAN:',
-            error
-        );
-
-        alert(
-            error.message ||
-            'Gagal menyimpan data pelanggan.'
-        );
-
-    } finally {
-
-        if (button) {
-            button.disabled = false;
-            button.textContent = 'OKE';
-        }
+      button.textContent =
+        'OKE';
 
     }
+
+  }
 
 }
-
 
 /* =========================================================
    PINDAH KE PAGE PELANGGAN
