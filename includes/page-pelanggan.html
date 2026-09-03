@@ -23,12 +23,7 @@ PAGE PELANGGAN
 
           <span>⌕</span>
 
-          <input
-                type="text"
-                id="searchPelanggan"
-                placeholder="Cari pelanggan..."
-                oninput="filterPelanggan()"
-              >
+          <input type="text" id="searchPelanggan" placeholder="Cari pelanggan..." oninput="filterPelanggan()">
 
         </div>
 
@@ -37,38 +32,38 @@ PAGE PELANGGAN
         <select id="sortPelanggan" onchange="sortPelanggan()">
 
           <option value="terbaru">Terbaru</option>
-          
+
           <option value="az">A-Z</option>
-          
-          </select>
+
+        </select>
 
         <!-- ARAH URUTAN -->
 
         <select id="sortDirection" onchange="sortPelanggan()">
 
           <option value="asc">Dari Atas</option>
-          
+
           <option value="desc">Dari Bawah</option>
-          
-          </select>
+
+        </select>
 
         <!-- FILTER -->
 
         <select id="filterStatus" onchange="filterPelanggan()">
 
-            <option value="">Semua</option>
+          <option value="">Semua</option>
 
-              <option value="Aktif">
-                Aktif
-              </option>
+          <option value="Aktif">
+            Aktif
+          </option>
 
-              <option value="Pending">
-                Isolir
-              </option>
+          <option value="Pending">
+            Isolir
+          </option>
 
-              <option value="Nonaktif">
-                Dismantle
-              </option>
+          <option value="Nonaktif">
+            Dismantle
+          </option>
 
         </select>
 
@@ -144,15 +139,15 @@ PAGE PELANGGAN
 
           </div>
 
-          <!-- NOMOR INDUK KEPENDUDUKAN (NIK) -->
+          <!-- SN (SERIAL NUMBER) -->
 
           <div class="detail">
 
-            <span class="icon nik">
-              <i class="fa-regular fa-address-card"></i>
+            <span class="icon serial-number">
+              <i class="fa-solid fa-desktop"></i>
             </span>
 
-            <span class="customer-nik"></span>
+            <span class="customer-serialnumber"></span>
 
           </div>
 
@@ -197,10 +192,7 @@ PAGE PELANGGAN
 
       <div>
 
-        <button
-          type="button"
-          onclick="previousPage()"
-        >
+        <button type="button" onclick="previousPage()">
           ‹
         </button>
 
@@ -210,10 +202,7 @@ PAGE PELANGGAN
         </span>
 
 
-        <button
-          type="button"
-          onclick="nextPage()"
-        >
+        <button type="button" onclick="nextPage()">
           ›
         </button>
 
@@ -360,16 +349,50 @@ MODAL DETAIL PELANGGAN
 
       <!-- EDIT -->
 
-      <button
-        type="button"
-        class="customer-detail-edit"
-        onclick="editPelangganDariModal()"
-        title="Edit Data"
-      >
+      <!-- <button type="button" class="customer-detail-edit" onclick="editPelangganDariModal()" title="Edit Data">
 
         <i class="fa-solid fa-pen"></i>
 
-      </button>
+      </button> -->
+
+
+      <!-- BUTTON ACTION -->
+
+      <div class="customer-detail-action">
+
+        <button type="button" class="customer-detail-edit" onclick="toggleCustomerAction(event)" title="Action">
+
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+
+        </button>
+
+
+        <div id="customerActionMenu" class="customer-action-menu">
+
+          <!-- EDIT -->
+
+          <button type="button" class="customer-action-item" onclick="editPelangganDariAction()">
+
+            <i class="fa-solid fa-pen"></i>
+
+            <span>Edit</span>
+
+          </button>
+
+
+          <!-- HAPUS -->
+
+          <button type="button" class="customer-action-item delete" onclick="hapusPelangganDariAction()">
+
+            <i class="fa-solid fa-trash"></i>
+
+            <span>Hapus</span>
+
+          </button>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -575,8 +598,8 @@ MODAL DETAIL PELANGGAN
             <i class="fa-solid fa-house detail-icon purple"></i>
 
             <span id="detailAlamat">
-            -
-          </span>
+              -
+            </span>
 
           </div>
 
@@ -662,10 +685,7 @@ MODAL DETAIL PELANGGAN
 
           <div class="customer-detail-item-value badge-container">
 
-            <span
-              id="detailStatus"
-              class="detail-status"
-            >
+            <span id="detailStatus" class="detail-status">
               -
             </span>
 
@@ -684,10 +704,7 @@ MODAL DETAIL PELANGGAN
 
           <div class="customer-detail-item-value badge-container">
 
-            <span
-              id="detailCpe"
-              class="detail-cpe"
-            >
+            <span id="detailCpe" class="detail-cpe">
               -
             </span>
 
@@ -707,14 +724,454 @@ MODAL DETAIL PELANGGAN
 
     <div class="customer-detail-footer">
 
-      <button
-        type="button"
-        class="customer-detail-close"
-        onclick="tutupModalDetailPelanggan()"
-      >
+      <button type="button" class="customer-detail-close" onclick="tutupModalDetailPelanggan()">
 
         Tutup
 
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ===================================================
+MODAL EDIT PELANGGAN
+MODAL INDEPENDEN — DI LUAR MODAL DETAIL
+==================================================== -->
+
+<div id="modalEditPelanggan" class="customer-edit-overlay">
+
+  <div class="customer-edit-modal">
+
+    <!-- =================================================
+HEADER MODAL EDIT
+================================================= -->
+
+    <div class="customer-edit-header">
+
+      <div class="customer-edit-profile">
+
+        <div class="customer-edit-avatar">
+
+          <i class="fa-regular fa-user"></i>
+
+        </div>
+
+        <div class="customer-edit-profile-info">
+
+          <h2 class="customer-edit-name">
+            Edit Data Pelanggan
+          </h2>
+
+          <span>
+            Edit data pelanggan berikut
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+BODY FORM EDIT
+================================================= -->
+
+    <div class="customer-edit-body">
+
+      <form id="formEditPelanggan">
+
+        <!-- =============================================
+    BARIS 1
+    NAMA | CUSTOMER ID
+    ============================================== -->
+
+        <div class="customer-edit-grid two-column">
+
+          <!-- NAMA -->
+
+          <div class="customer-edit-item">
+
+            <label for="editNama">
+              Nama Lengkap
+            </label>
+
+            <input type="text" id="editNama" autocomplete="off">
+
+          </div>
+
+          <!-- CUSTOMER ID -->
+
+          <div class="customer-edit-item">
+
+            <label for="editCustomerId">
+              Customer ID
+            </label>
+
+            <input type="text" id="editCustomerId" autocomplete="off" placeholder="Masukkan Customer ID pelanggan">
+
+          </div>
+
+        </div>
+
+        <!-- =============================================
+    BARIS 2
+    WHATSAPP | NOMOR TERDAFTAR
+    ============================================== -->
+
+        <div class="customer-edit-grid two-column">
+
+          <!-- WHATSAPP -->
+
+          <div class="customer-edit-item">
+
+            <label for="editWhatsapp">
+              Nomor Whatsapp
+            </label>
+
+            <input type="text" id="editWhatsapp" inputmode="numeric" autocomplete="off">
+
+          </div>
+
+          <div class="customer-edit-item">
+
+            <label for="editNomorTerdaftar">
+              Nomor Terdaftar
+            </label>
+
+            <input type="text" id="editNomorTerdaftar" inputmode="numeric" autocomplete="off"
+              placeholder="Isi nomor yang terdaftar sekarang">
+
+          </div>
+
+        </div>
+
+
+        <!-- =============================================
+    BARIS 3
+    SERIAL NUMBER | NIK
+    ============================================== -->
+
+        <div class="customer-edit-grid three-column">
+
+          <!-- SERIAL NUMBER -->
+
+          <div class="customer-edit-item">
+
+            <label for="editSerialNumber">
+              Serial Number
+            </label>
+
+            <input type="text" id="editSerialNumber" autocomplete="off">
+
+          </div>
+
+
+          <!-- NIK -->
+
+          <div class="customer-edit-item">
+
+            <label for="editNik">
+              NIK (Nomor Induk Kependudukan)
+            </label>
+
+            <input type="text" id="editNik" maxlength="16" inputmode="numeric" autocomplete="off">
+
+          </div>
+
+        </div>
+
+
+        <!-- =============================================
+    BARIS 4
+    KECAMATAN | DESA | RT/RW
+    ============================================== -->
+
+        <div class="customer-edit-grid four-column">
+
+          <!-- KECAMATAN -->
+
+          <div class="customer-edit-item">
+
+            <label for="editKecamatan">
+              Kecamatan
+            </label>
+
+            <select id="editKecamatan" onchange="ubahKecamatanEdit()">
+              <option value="">
+                Pilih Kecamatan
+              </option>
+            </select>
+
+          </div>
+
+
+          <!-- DESA -->
+
+          <div class="customer-edit-item">
+
+            <label for="editDesa">
+              Kelurahan/Desa
+            </label>
+
+            <select id="editDesa" disabled>
+              <option value="">
+                Pilih Desa / Kelurahan
+              </option>
+            </select>
+
+          </div>
+
+
+          <!-- RT/RW -->
+
+          <div class="customer-edit-item">
+
+            <label for="editRTRW">
+              RT/RW
+            </label>
+
+            <input type="text" id="editRTRW" maxlength="5" placeholder="00/00" inputmode="numeric" autocomplete="off"
+              oninput="formatRTRW(this)">
+
+          </div>
+
+        </div>
+
+
+        <!-- =============================================
+    ALAMAT
+    ============================================== -->
+
+        <div class="customer-edit-grid">
+
+          <div class="customer-edit-item">
+
+            <label for="editAlamat">
+              Alamat Lengkap (Patokan Rumah)
+            </label>
+
+            <textarea id="editAlamat" rows="3"></textarea>
+
+          </div>
+
+        </div>
+
+
+        <!-- =============================================
+    KOORDINAT
+    ============================================== -->
+
+        <div class="customer-edit-grid">
+
+          <div class="customer-edit-item">
+
+            <label for="editKoordinat">
+              Koordinat
+            </label>
+
+            <input type="text" id="editKoordinat" autocomplete="off">
+
+          </div>
+
+        </div>
+
+
+        <!-- =============================================
+    JENIS CPE
+    ============================================== -->
+
+        <div class="customer-edit-grid">
+
+          <div class="customer-edit-item">
+
+            <label for="editCpe">
+              Jenis CPE
+            </label>
+
+            <select id="editCpe">
+
+              <option value="">
+                Pilih Jenis CPE
+              </option>
+
+              <option value="MEIG">
+                MEIG
+              </option>
+
+              <option value="WEIWINS">
+                WEIWINS
+              </option>
+
+              <option value="ZTE">
+                ZTE
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+
+    <!-- =================================================
+FOOTER MODAL EDIT
+================================================= -->
+
+    <div class="customer-edit-footer">
+
+      <button type="button" class="customer-edit-cancel" onclick="batalEditPelanggan()">
+        Batal
+      </button>
+
+
+      <button type="button" class="customer-edit-save" onclick="simpanPerubahanPelanggan()">
+
+        <i class="fa-solid fa-check"></i>
+
+        Selesai
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- END MODAL EDIT PELANGGAN -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ===================================================
+MODAL KONFIRMASI HAPUS PELANGGAN
+==================================================== -->
+
+<div id="modalHapusPelanggan" class="delete-modal-overlay">
+
+  <div class="delete-modal">
+
+    <div class="delete-modal-icon">
+
+      <i class="fa-solid fa-trash"></i>
+
+    </div>
+
+
+    <div class="delete-modal-content">
+
+      <h3>
+        Hapus Data Pelanggan?
+      </h3>
+
+      <p>
+        Apakah Anda yakin ingin menghapus data pelanggan berikut?
+      </p>
+
+
+      <div class="delete-customer-info">
+
+        <strong id="hapusNamaPelanggan">
+          -
+        </strong>
+
+        <span id="hapusCustomerId">
+          -
+        </span>
+
+      </div>
+
+
+      <p class="delete-warning">
+        Data yang sudah dihapus tidak dapat dikembalikan.
+      </p>
+
+    </div>
+
+
+    <div class="delete-modal-footer">
+
+      <button
+        type="button"
+        class="delete-modal-cancel"
+        onclick="tutupModalHapusPelanggan()"
+      >
+        Batal
+      </button>
+
+
+      <button
+        type="button"
+        class="delete-modal-confirm"
+        onclick="konfirmasiHapusPelanggan()"
+      >
+        <i class="fa-solid fa-trash"></i>
+        Hapus
       </button>
 
     </div>
