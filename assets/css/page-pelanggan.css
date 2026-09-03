@@ -1386,29 +1386,35 @@
 
   .customer-detail-modal {
 
-    width: 100%;
+  width: 100%;
 
-    max-width: 920px;
+  max-width: 920px;
 
-    max-height: calc(100vh - 50px);
+  height: calc(100vh - 50px);
 
-    background: #ffffff;
+  max-height: calc(100vh - 50px);
 
-    border: 1px solid #e7e7e7;
+  background: #ffffff;
 
-    border-radius: 16px;
+  border: 1px solid #e7e7e7;
 
-    box-shadow:
-      0 25px 70px rgba(0, 0, 0, .20);
+  border-radius: 16px;
 
-    padding: 28px;
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, .20);
 
-    box-sizing: border-box;
+  padding: 28px;
 
-    overflow-y: auto;
+  box-sizing: border-box;
 
-    animation:
-      customerDetailModalIn .22s ease;
+  overflow: hidden;
+
+  display: flex;
+
+  flex-direction: column;
+
+  animation:
+    customerDetailModalIn .22s ease;
 
   }
 
@@ -2080,7 +2086,7 @@
    MODAL DETAIL — MOBILE
 ========================================================= */
 
-  @media (max-width: 1000px) {
+  @media (max-width: 600px) {
 
     .customer-detail-overlay {
 
@@ -2118,7 +2124,7 @@
 
       height: 1200px;
 
-      max-height: 88vh;
+      max-height: 80vh;
 
       padding: 20px;
 
@@ -2179,9 +2185,9 @@
 
     .customer-detail-avatar {
 
-      width: 100px;
+      width: 60px;
 
-      height: 100px;
+      height: 60px;
 
       flex-shrink: 0;
 
@@ -2192,7 +2198,7 @@
 
     .customer-detail-avatar i {
 
-      font-size: 50px;
+      font-size: 30px;
 
       color: #df2929;
 
@@ -2203,9 +2209,9 @@
 
       max-width: none;
 
-      font-size: 30px;
+      font-size: 18px;
 
-      line-height: 1.3;
+      line-height: 1;
 
       font-weight: 700;
 
@@ -2224,7 +2230,7 @@
 
       margin-top: 3px;
 
-      font-size: 20px;
+      font-size: 12px;
 
     }
 
@@ -2252,7 +2258,7 @@
 
       width: 100%;
 
-      padding: 14px 16px;
+      padding: 10px 0px;
 
       box-sizing: border-box;
 
@@ -2313,7 +2319,7 @@
 
     .customer-detail-item-title {
 
-      font-size: 19px;
+      font-size: 15px;
 
       margin-bottom: 7px;
 
@@ -2324,8 +2330,8 @@
 
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 20px;
+      gap: 9px;
+      font-size: 15px;
 
     }
 
@@ -2363,14 +2369,14 @@
 
     .customer-detail-address .customer-detail-item-value {
 
-      align-items: center;
+      align-items: flex-start;
 
     }
 
 
     .customer-detail-address .customer-detail-item-value span {
 
-      line-height: 1.6;
+      line-height: 1.2;
 
       word-break: break-word;
 
@@ -2392,7 +2398,7 @@
 
       border-radius: 7px;
 
-      font-size: 20px;
+      font-size: 15px;
 
     }
 
@@ -2446,11 +2452,11 @@
 
       width: 100%;
 
-      height: 40px;
+      height: 30px;
 
       min-width: 0;
 
-      font-size: 20px;
+      font-size: 15px;
 
     }
 
@@ -2471,4 +2477,4 @@
       border-radius: 10px;
     }
 
-  }
+}
