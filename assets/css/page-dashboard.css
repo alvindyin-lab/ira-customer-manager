@@ -201,6 +201,829 @@
   }
 
 
+/* =========================================================
+   DATE RANGE FILTER
+========================================================= */
+
+.chart-date-filter {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+}
+
+
+/* =========================================================
+   TOMBOL DATE RANGE
+========================================================= */
+
+.chart-date-range-button {
+
+  height: 30px;
+
+  min-width: 210px;
+
+  padding: 0 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  border:
+    1px solid #e6e6e6;
+
+  border-radius: 7px;
+
+  background: #fff;
+
+  color: #333;
+
+  font-family: inherit;
+
+  font-size: 9px;
+
+  cursor: pointer;
+
+  transition: .2s ease;
+
+}
+
+
+.chart-date-range-button:hover {
+
+  border-color: #d5d5d5;
+
+}
+
+
+.chart-date-range-button:focus {
+
+  outline: none;
+
+  border-color:
+    var(--primary);
+
+}
+
+
+.chart-date-range-button i {
+
+  color: #888;
+
+  font-size: 11px;
+
+}
+
+
+/* =========================================================
+   DATE PICKER
+========================================================= */
+
+.chart-date-picker {
+
+  position: absolute;
+
+  top: calc(100% + 8px);
+
+  right: 0;
+
+  z-index: 1000;
+
+  width: 280px;
+
+  padding: 12px;
+
+  display: none;
+
+  background: #fff;
+
+  border:
+    1px solid #eeeeee;
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, .12);
+
+  box-sizing: border-box;
+
+}
+
+
+.chart-date-picker.active {
+
+  display: block;
+
+}
+
+
+/* =========================================================
+   HEADER BULAN
+========================================================= */
+
+.chart-date-picker-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+
+}
+
+
+.chart-date-month {
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  color: #222;
+
+}
+
+
+.chart-year-picker {
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  max-height: 210px;
+  overflow-y: auto;
+  padding: 6px;
+  display: none;
+  background: #fff;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.12);
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+.chart-year-picker.active {
+  display: block;
+}
+
+.chart-year-option {
+  width: 100%;
+  height: 28px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: #444;
+  font-family: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.chart-year-option:hover {
+  background: #fff0f0;
+  color: var(--red-main);
+}
+
+.chart-year-option.selected {
+  background: var(--red-main);
+  color: #fff;
+  font-weight: 600;
+}
+
+.chart-date-month {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 5px;
+}
+
+.chart-date-month:hover {
+  background: #f7f7f7;
+  color: var(--red-main);
+}
+
+
+.chart-date-nav {
+
+  width: 26px;
+
+  height: 26px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  cursor: pointer;
+
+}
+
+
+.chart-date-nav:hover {
+
+  background: #f7f7f7;
+
+  color: var(--primary);
+
+}
+
+
+.chart-date-nav i {
+
+  font-size: 9px;
+
+}
+
+.chart-date-nav:disabled {
+
+  opacity: 0.35;
+
+  cursor: not-allowed;
+
+}
+
+
+/* =========================================================
+   HARI
+========================================================= */
+
+.chart-date-weekdays,
+.chart-date-days {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, 1fr);
+
+  align-content: start;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+}
+
+/* =========================================================
+   PERBAIKAN JARAK HARI DAN TANGGAL
+========================================================= */
+
+.chart-date-weekdays {
+
+  margin-bottom: 10px;
+
+}
+
+
+.chart-date-days {
+
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  grid-auto-rows: 30px;
+
+  align-items: start;
+
+  align-content: start;
+
+  gap: 0;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+
+.chart-date-weekdays span {
+
+  text-align: center;
+
+  font-size: 8px;
+
+  font-weight: 600;
+
+  color: #999;
+
+}
+
+
+/* =========================================================
+   TANGGAL
+========================================================= */
+
+.chart-date-day {
+
+  width: 100%;
+
+  height: 30px;
+
+  min-height: 30px;
+
+  padding: 0;
+
+  margin: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: none;
+
+  background: transparent;
+
+  color: #444;
+
+  font-family: inherit;
+
+  font-size: 8px;
+
+  cursor: pointer;
+
+  position: relative;
+
+  box-sizing: border-box;
+
+}
+
+
+.chart-date-day:hover {
+
+  background: #fff0f0;
+
+  color: var(--red-main);
+
+}
+
+
+/* TANGGAL DI LUAR BULAN */
+
+.chart-date-day.empty {
+
+  height: 30px;
+
+  min-height: 30px;
+
+  margin: 0;
+
+  padding: 0;
+
+  pointer-events: none;
+
+}
+
+
+/* TANGGAL MULAI / AKHIR */
+
+.chart-date-day.selected {
+
+  background:
+    var(--red-main);
+
+  color: #fff;
+
+  font-weight: 600;
+
+  border-radius: 6px;
+
+  z-index: 2;
+
+}
+
+
+.chart-date-day.selected:hover {
+
+  background:
+    var(--red-main);
+
+  color: #fff;
+
+}
+
+
+/* RENTANG */
+
+.chart-date-day.in-range {
+
+  background: #ffe5e5;
+
+  color: #b91c1c;
+
+  border-radius: 0;
+
+}
+
+
+.chart-date-day.in-range:hover {
+
+  background: #ffd6d6;
+
+}
+
+
+/* HOVER SEBELUM RANGE LENGKAP */
+
+.chart-date-day.range-start {
+
+  border-radius:
+    6px 0 0 6px;
+
+}
+
+
+.chart-date-day.range-end {
+
+  border-radius:
+    0 6px 6px 0;
+
+}
+
+
+.chart-date-day.disabled {
+  color: #c7c7c7;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.chart-date-picker-footer {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 10px;
+
+  padding-top: 10px;
+
+  border-top:
+    1px solid #f1f1f1;
+
+}
+
+
+.chart-date-cancel,
+.chart-date-apply {
+
+  height: 27px;
+
+  padding: 0 11px;
+
+  border-radius: 6px;
+
+  font-family: inherit;
+
+  font-size: 8px;
+
+  cursor: pointer;
+
+}
+
+
+.chart-date-cancel {
+
+  border:
+    1px solid #e6e6e6;
+
+  background: #fff;
+
+  color: #777;
+
+}
+
+
+.chart-date-apply {
+
+  border:
+    1px solid var(--red-main);
+
+  background:
+    var(--red-main);
+
+  color: #fff;
+
+  font-weight: 600;
+
+}
+
+
+.chart-date-apply:disabled {
+
+  opacity: .4;
+
+  cursor: not-allowed;
+
+}
+
+.chart-date-month {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.chart-date-month:hover {
+  color: var(--red-main);
+}
+
+.chart-year-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.chart-year-option {
+  border: none;
+  background: transparent;
+  padding: 9px 4px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 11px;
+  color: #444;
+  cursor: pointer;
+}
+
+.chart-year-option:hover {
+  background: #fff0f0;
+  color: var(--red-main);
+}
+
+.chart-year-option.active {
+  background: var(--red-main);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* =========================================================
+   RINGKASAN PERTUMBUHAN PELANGGAN
+========================================================= */
+
+.chart-summary {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  align-items: center;
+
+  width: 100%;
+
+  min-height: 76px;
+
+  margin-bottom: 12px;
+
+  padding: 10px 0;
+
+  box-sizing: border-box;
+
+  background: #fff8f8;
+
+  border: 1px solid #f5dddd;
+
+  border-radius: 10px;
+
+}
+
+
+/* =========================================================
+   ITEM
+========================================================= */
+
+.chart-summary-item {
+
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  min-width: 0;
+
+  padding: 8px 10px;
+
+  box-sizing: border-box;
+
+}
+
+
+.chart-summary-item:not(:last-child) {
+
+  border-right: 1px solid #eeeeee;
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.chart-summary-icon {
+
+  width: 42px;
+
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-right: 9px;
+
+  border-radius: 8px;
+
+  background: #fff0f0;
+
+  color: #dc2c2c;
+
+}
+
+
+.chart-summary-icon i {
+
+  font-size: 20px;
+
+}
+
+
+.chart-summary-icon span {
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.chart-summary-info {
+
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+}
+
+
+.chart-summary-label {
+
+  margin-bottom: 3px;
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  color: #888;
+
+  line-height: 1;
+
+}
+
+
+.chart-summary-value {
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  color: #222;
+
+  white-space: nowrap;
+
+}
+
+.chart-summary-growth-row {
+
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 6px;
+
+  white-space: nowrap;
+
+}
+
+
+/* =========================================================
+   PERTUMBUHAN
+========================================================= */
+
+.growth-icon {
+
+  background: #eaf8ef;
+
+  color: #16a34a;
+
+}
+
+
+.growth-value {
+
+  color: #16a34a;
+
+}
+
+
+/* TURUN */
+
+.growth-icon.growth-down {
+
+  background: #feecec;
+
+  color: #dc2c2c;
+
+}
+
+
+.growth-value.growth-down {
+
+  color: #dc2c2c;
+
+}
+
+
+/* TETAP / NETRAL */
+
+.growth-icon.growth-neutral {
+
+  background: #f3f3f3;
+
+  color: #888;
+
+}
+
+
+.growth-value.growth-neutral {
+
+  color: #888;
+
+}
+
+
+.chart-summary-comparison {
+
+  margin-top: 0;
+
+  font-size: 8px;
+
+  color: #999;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+}
+
+
   .panel-title {
 
     font-size: 12px;
@@ -242,7 +1065,7 @@
   }
 
 
-  /* REVENUE CHART */
+  /* PERTUMBUHAN PELANGGAN */
 
   .chart-container {
 
@@ -493,11 +1316,15 @@
 
 
 
+
+
+
+
   /* ========================================================
    DASHBOARD — RESPONSIVE MOBILE
 ======================================================== */
 
-  @media (max-width: 1000px) {
+  @media (max-width: 600px) {
 
     /* ======================================================
      STATISTICS
@@ -549,14 +1376,6 @@
       transform: translateY(-50%);
 
     }
-
-
-    /* .stat-title {
-
-      font-size: 21px;
-
-      margin-bottom: 10px;
-    } */
 
 
     .stat-title {
@@ -620,21 +1439,43 @@
       width: auto;
 
       margin:
-        0 12px 15px;
+        0 0 15px;
 
       grid-template-columns: 1fr;
 
       gap: 12px;
     }
 
+  
+
 
     /* ======================================================
      PANEL
   ====================================================== */
 
+    .panel-header {
+
+      align-items: flex-start;
+
+      gap: 10px;
+
+    }
+
+
+    .panel-title {
+
+      padding-top: 4px;
+
+      white-space: nowrap;
+
+    }
+
+
     .dashboard-grid .panel {
 
       width: 100%;
+
+      min-width: 0;
 
       padding: 15px;
 
@@ -644,14 +1485,247 @@
     }
 
 
+/* ======================================================
+   DATE RANGE — MOBILE
+====================================================== */
+
+.chart-date-filter {
+
+  width: auto;
+
+  margin-right: 3px;
+
+}
+
+
+.chart-date-range-button {
+
+  min-width: 165px;
+
+  height: 28px;
+
+  padding: 0 8px;
+
+  font-size: 8px;
+
+  gap: 6px;
+
+  box-sizing: border-box;
+
+}
+
+
+.chart-date-range-button i {
+
+  font-size: 10px;
+
+}
+
+
+.chart-date-picker {
+
+  width: 270px;
+
+  top: calc(100% + 7px);
+
+  right: 0;
+
+  padding: 10px;
+
+}
+
+
+.chart-date-month {
+
+  font-size: 9px;
+
+}
+
+
+.chart-date-nav {
+
+  width: 24px;
+
+  height: 24px;
+
+}
+
+
+.chart-date-weekdays span {
+
+  font-size: 7px;
+
+}
+
+
+.chart-date-day {
+
+  height: 28px;
+
+  font-size: 8px;
+
+}
+
+
+.chart-date-picker-footer {
+
+  margin-top: 8px;
+
+  padding-top: 8px;
+
+}
+
+
+.chart-date-cancel,
+.chart-date-apply {
+
+  height: 25px;
+
+  padding: 0 10px;
+
+  font-size: 7px;
+
+}
+
+
     /* ======================================================
      REVENUE CHART
   ====================================================== */
 
     .chart-container {
 
-      height: 220px;
+      height: 230px;
     }
+
+
+/* =========================================================
+   SUMMARY PERTUMBUHAN - MOBILE
+========================================================= */
+
+.chart-summary {
+
+  grid-template-columns:
+    0.75fr
+    1fr
+    0.8fr;
+
+  min-height: 50px;
+
+  margin-bottom: 12px;
+
+  padding: 8px 8px;
+
+  box-sizing: border-box;
+
+}
+
+
+.chart-summary-item {
+
+  width: 100%;
+
+  min-width: 0;
+
+  padding: 0 8px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+
+}
+
+
+.chart-summary-item:first-child {
+
+  padding-left: 0;
+
+}
+
+
+.chart-summary-item:last-child {
+
+  padding-right: 0;
+
+}
+
+
+.chart-summary-icon {
+
+  width: 25px;
+
+  height: 25px;
+
+  flex-shrink: 0;
+
+  margin-right: 5px;
+
+  border-radius: 7px;
+
+}
+
+
+.chart-summary-icon i {
+
+  font-size: 11px;
+
+}
+
+
+.chart-summary-icon span {
+
+  font-size: 8px;
+
+}
+
+
+.chart-summary-label {
+
+  font-size: 6.5px;
+
+  margin-bottom: 3px;
+
+  white-space: nowrap;
+
+}
+
+
+.chart-summary-value {
+
+  font-size: 13px;
+
+  white-space: nowrap;
+
+}
+
+.chart-summary-growth-row {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 2px;
+
+  width: 100%;
+
+  min-width: 0;
+
+}
+
+.chart-summary-comparison {
+
+  font-size: 6px;
+
+  margin-top: 0;
+
+  white-space: nowrap;
+
+}
 
 
     /* ======================================================
