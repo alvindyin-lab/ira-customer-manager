@@ -33,12 +33,12 @@ PAGE DASHBOARD
         <div class="stat-footer">
 
           <span class="growth">
-                ↗ 12.5%
-              </span>
+            ↗ 12.5%
+          </span>
 
           <span class="comparison">
-                vs last month
-              </span>
+            vs last month
+          </span>
 
         </div>
 
@@ -83,12 +83,12 @@ PAGE DASHBOARD
         <div class="stat-footer">
 
           <span class="growth">
-                ↗ 8.2%
-              </span>
+            ↗ 8.2%
+          </span>
 
           <span class="comparison">
-                vs last month
-              </span>
+            vs last month
+          </span>
 
         </div>
 
@@ -132,12 +132,12 @@ PAGE DASHBOARD
         <div class="stat-footer">
 
           <span class="growth">
-                ↗ 14.3%
-              </span>
+            ↗ 14.3%
+          </span>
 
           <span class="comparison">
-                vs last month
-              </span>
+            vs last month
+          </span>
 
         </div>
 
@@ -181,12 +181,12 @@ PAGE DASHBOARD
         <div class="stat-footer">
 
           <span class="growth">
-                ↗ 15.7%
-              </span>
+            ↗ 15.7%
+          </span>
 
           <span class="comparison">
-                vs last month
-              </span>
+            vs last month
+          </span>
 
         </div>
 
@@ -222,23 +222,184 @@ PAGE DASHBOARD
 
       <div class="panel-header">
 
-
         <div class="panel-title">
-          Revenue Overview
+          Pertumbuhan Pelanggan
+        </div>
+
+        <div class="chart-date-filter">
+
+          <!-- INPUT ASLI UNTUK SISTEM FILTER -->
+          <input type="hidden" id="tanggalMulaiGrafik">
+
+          <input type="hidden" id="tanggalAkhirGrafik">
+
+
+          <!-- TOMBOL RANGE TANGGAL -->
+
+          <button type="button" id="chartDateRangeButton" class="chart-date-range-button">
+
+            <span id="chartDateRangeText">
+              Pilih tanggal
+            </span>
+
+            <i class="fa-regular fa-calendar"></i>
+
+          </button>
+
+
+          <!-- DATE RANGE PICKER -->
+
+          <div id="chartDatePicker" class="chart-date-picker">
+
+
+            <!-- HEADER BULAN -->
+
+            <div class="chart-date-picker-header">
+
+              <button type="button" id="chartDatePrev" class="chart-date-nav">
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+              </button>
+
+
+              <button type="button" id="chartDateMonth" class="chart-date-month">
+              </button>
+
+
+              <button type="button" id="chartDateNext" class="chart-date-nav">
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+              </button>
+
+            </div>
+
+
+            <!-- HARI -->
+
+            <div class="chart-date-weekdays">
+
+              <span>Sn</span>
+              <span>Sl</span>
+              <span>Se</span>
+              <span>Ra</span>
+              <span>Ka</span>
+              <span>Ju</span>
+              <span>Sa</span>
+
+            </div>
+
+
+            <!-- TANGGAL -->
+
+            <div id="chartDateDays" class="chart-date-days">
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="chart-date-picker-footer">
+
+              <button type="button" id="chartDateCancel" class="chart-date-cancel">
+
+                Batal
+
+              </button>
+
+
+              <button type="button" id="chartDateApply" class="chart-date-apply">
+
+                Terapkan
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="chart-summary">
+
+        <!-- PELANGGAN BARU -->
+
+        <div class="chart-summary-item">
+
+          <div class="chart-summary-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+
+          <div class="chart-summary-info">
+
+            <div class="chart-summary-label">
+              Pelanggan Baru
+            </div>
+
+            <div class="chart-summary-value" id="totalPelangganGrafik">
+              0
+            </div>
+
+          </div>
+
         </div>
 
 
-        <button class="panel-button">
+        <!-- PENDAPATAN -->
 
-              This Month
+        <div class="chart-summary-item">
 
-              <i
-                data-lucide="chevron-down"
-                style="width:11px;">
-              </i>
+          <div class="chart-summary-icon">
+            <span>Rp</span>
+          </div>
 
-            </button>
+          <div class="chart-summary-info">
 
+            <div class="chart-summary-label">
+              Pendapatan
+            </div>
+
+            <div class="chart-summary-value" id="pendapatanGrafik">
+              Rp0
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- PERTUMBUHAN -->
+
+        <div class="chart-summary-item chart-summary-growth">
+
+          <div class="chart-summary-icon growth-icon growth-neutral" id="growthIcon">
+            <i class="fa-solid fa-minus"></i>
+          </div>
+
+          <div class="chart-summary-info">
+
+            <div class="chart-summary-label">
+              Pertumbuhan
+            </div>
+
+            <div class="chart-summary-growth-row">
+
+              <div class="chart-summary-value growth-value growth-neutral" id="growthValue">
+                0%
+              </div>
+
+              <div class="chart-summary-comparison">
+                vs last month
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -310,8 +471,8 @@ PAGE DASHBOARD
           </div>
 
           <strong>
-                62%
-              </strong>
+            62%
+          </strong>
 
         </div>
 
@@ -327,8 +488,8 @@ PAGE DASHBOARD
           </div>
 
           <strong>
-                21%
-              </strong>
+            21%
+          </strong>
 
         </div>
 
@@ -344,8 +505,8 @@ PAGE DASHBOARD
           </div>
 
           <strong>
-                10%
-              </strong>
+            10%
+          </strong>
 
         </div>
 
@@ -361,8 +522,8 @@ PAGE DASHBOARD
           </div>
 
           <strong>
-                7%
-              </strong>
+            7%
+          </strong>
 
         </div>
 
