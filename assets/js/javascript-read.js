@@ -7,15 +7,957 @@ let semuaPelanggan = [];
 
 let filteredPelanggan = [];
 
+let revenueChart = null;
+
 let currentPage = 1;
 
 const perPage = 12;
 
-/*
-|--------------------------------------------------------------------------
-| AMBIL DATA DARI APPS SCRIPT
-|--------------------------------------------------------------------------
-*/
+// =========================================================
+// DATE RANGE PICKER — PERTUMBUHAN PELANGGAN
+// =========================================================
+
+let chartPickerMonth = new Date();
+
+let chartPickerStart = '';
+
+let chartPickerEnd = '';
+
+let chartAppliedStart = '';
+
+let chartAppliedEnd = '';
+
+let chartDatePickerInitialized = false;
+
+let chartYearPicker = null;
+
+
+// =========================================================
+// HELPER DATE RANGE
+// =========================================================
+
+function formatDateISO(date) {
+
+  const tahun =
+    date.getFullYear();
+
+  const bulan =
+    String(
+      date.getMonth() + 1
+    ).padStart(2, '0');
+
+  const tanggal =
+    String(
+      date.getDate()
+    ).padStart(2, '0');
+
+  return (
+    tahun +
+    '-' +
+    bulan +
+    '-' +
+    tanggal
+  );
+
+}
+
+
+function formatDateRangeIndonesia(
+  tanggalMulai,
+  tanggalAkhir
+) {
+
+  if (
+    !tanggalMulai ||
+    !tanggalAkhir
+  ) {
+
+    return 'Pilih tanggal';
+
+  }
+
+  const mulai =
+    new Date(
+      tanggalMulai +
+      'T00:00:00'
+    );
+
+  const akhir =
+    new Date(
+      tanggalAkhir +
+      'T00:00:00'
+    );
+
+  const formatter =
+    new Intl.DateTimeFormat(
+      'id-ID',
+      {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }
+    );
+
+  return (
+    formatter.format(mulai) +
+    ' — ' +
+    formatter.format(akhir)
+  );
+
+}
+
+
+
+
+
+// =========================================================
+// DATE RANGE PICKER
+// =========================================================
+
+function initChartDateRangePicker() {
+
+  if (
+    chartDatePickerInitialized
+  ) {
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      'chartDateRangeButton'
+    );
+
+  const picker =
+    document.getElementById(
+      'chartDatePicker'
+    );
+
+  const daysContainer =
+    document.getElementById(
+      'chartDateDays'
+    );
+
+  const monthLabel =
+    document.getElementById(
+      'chartDateMonth'
+    );
+
+  const prevButton =
+    document.getElementById(
+      'chartDatePrev'
+    );
+
+  const nextButton =
+    document.getElementById(
+      'chartDateNext'
+    );
+
+  const cancelButton =
+    document.getElementById(
+      'chartDateCancel'
+    );
+
+  const applyButton =
+    document.getElementById(
+      'chartDateApply'
+    );
+
+  const rangeText =
+    document.getElementById(
+      'chartDateRangeText'
+    );
+
+  const tanggalMulaiInput =
+    document.getElementById(
+      'tanggalMulaiGrafik'
+    );
+
+  const tanggalAkhirInput =
+    document.getElementById(
+      'tanggalAkhirGrafik'
+    );
+
+
+  if (
+    !button ||
+    !picker ||
+    !daysContainer ||
+    !monthLabel ||
+    !prevButton ||
+    !nextButton ||
+    !cancelButton ||
+    !applyButton ||
+    !rangeText ||
+    !tanggalMulaiInput ||
+    !tanggalAkhirInput
+  ) {
+
+    console.warn(
+      '⚠️ Elemen Date Range Picker belum lengkap.'
+    );
+
+    return;
+
+  }
+
+
+  chartYearPicker = document.createElement('div');
+  chartYearPicker.className = 'chart-year-picker';
+  chartYearPicker.style.display = 'none';
+
+  monthLabel.parentElement.style.position = 'relative';
+  monthLabel.parentElement.appendChild(chartYearPicker);
+
+
+  // =======================================================
+  // DEFAULT: BULAN BERJALAN
+  // =======================================================
+
+  const hariIni =
+    new Date();
+
+  const tanggalHariIni =
+    formatDateISO(
+      hariIni
+    );
+
+  const tanggalMulaiBulan =
+    hariIni.getFullYear() +
+    '-' +
+    String(
+      hariIni.getMonth() + 1
+    ).padStart(2, '0') +
+    '-01';
+
+
+  if (
+    !tanggalMulaiInput.value
+  ) {
+
+    tanggalMulaiInput.value =
+      tanggalMulaiBulan;
+
+  }
+
+
+  if (
+    !tanggalAkhirInput.value
+  ) {
+
+    tanggalAkhirInput.value =
+      tanggalHariIni;
+
+  }
+
+
+  chartAppliedStart =
+    tanggalMulaiInput.value;
+
+  chartAppliedEnd =
+    tanggalAkhirInput.value;
+
+  chartPickerStart =
+    chartAppliedStart;
+
+  chartPickerEnd =
+    chartAppliedEnd;
+
+
+  chartPickerMonth =
+    new Date(
+      chartPickerStart +
+      'T00:00:00'
+    );
+
+
+  rangeText.textContent =
+    formatDateRangeIndonesia(
+      chartAppliedStart,
+      chartAppliedEnd
+    );
+
+
+
+  // =======================================================
+  // RENDER KALENDER
+  // =======================================================
+
+  function renderCalendar() {
+
+    const tahun =
+      chartPickerMonth.getFullYear();
+
+    const bulan =
+      chartPickerMonth.getMonth();
+
+
+    monthLabel.textContent =
+      new Intl.DateTimeFormat(
+        'id-ID',
+        {
+          month: 'long',
+          year: 'numeric'
+        }
+      ).format(
+        chartPickerMonth
+      );
+
+
+    // ===================================================
+    // BATASI BULAN MAKSIMAL SAMPAI BULAN BERJALAN
+    // ===================================================
+
+    const bulanSekarang = new Date();
+
+    const tahunBulanSekarang =
+      bulanSekarang.getFullYear();
+
+    const nomorBulanSekarang =
+      bulanSekarang.getMonth();
+
+    const tahunPicker =
+      chartPickerMonth.getFullYear();
+
+    const nomorBulanPicker =
+      chartPickerMonth.getMonth();
+
+    nextButton.disabled =
+      tahunPicker > tahunBulanSekarang ||
+      (
+        tahunPicker === tahunBulanSekarang &&
+        nomorBulanPicker >= nomorBulanSekarang
+      );
+
+
+    daysContainer.innerHTML =
+      '';
+
+
+    const hariPertama =
+      new Date(
+        tahun,
+        bulan,
+        1
+      );
+
+
+    const jumlahHari =
+      new Date(
+        tahun,
+        bulan + 1,
+        0
+      ).getDate();
+
+
+    // Senin = 0
+    // Minggu = 6
+
+    let posisiAwal =
+      hariPertama.getDay() - 1;
+
+    if (
+      posisiAwal < 0
+    ) {
+
+      posisiAwal = 6;
+
+    }
+
+
+    // =====================================================
+    // SEMUA TANGGAL BULAN
+    // =====================================================
+
+    for (
+      let tanggal = 1;
+      tanggal <= jumlahHari;
+      tanggal++
+    ) {
+
+      const date =
+        new Date(
+          tahun,
+          bulan,
+          tanggal
+        );
+
+
+      const iso =
+        formatDateISO(
+          date
+        );
+
+
+      const day =
+        document.createElement(
+          'button'
+        );
+
+      day.type =
+        'button';
+
+      day.className =
+        'chart-date-day';
+
+      day.textContent =
+        tanggal;
+
+
+      // ===================================================
+      // NONAKTIFKAN TANGGAL SETELAH HARI INI
+      // ===================================================
+
+      if (iso > tanggalHariIni) {
+
+        day.disabled = true;
+
+        day.classList.add(
+          'disabled'
+        );
+
+      }
+
+
+      // ===================================================
+      // HARI INI
+      // ===================================================
+
+      if (
+        iso === tanggalHariIni
+      ) {
+
+        day.classList.add(
+          'today'
+        );
+
+      }
+
+
+      // ===================================================
+      // TANGGAL MULAI
+      // ===================================================
+
+      if (
+        iso === chartPickerStart
+      ) {
+
+        day.classList.add(
+          'selected',
+          'range-start'
+        );
+
+      }
+
+
+      // ===================================================
+      // TANGGAL AKHIR
+      // ===================================================
+
+      if (
+        iso === chartPickerEnd
+      ) {
+
+        day.classList.add(
+          'selected',
+          'range-end'
+        );
+
+      }
+
+
+      // ===================================================
+      // DALAM RANGE
+      // ===================================================
+
+      if (
+        chartPickerStart &&
+        chartPickerEnd &&
+        iso > chartPickerStart &&
+        iso < chartPickerEnd
+      ) {
+
+        day.classList.add(
+          'in-range'
+        );
+
+      }
+
+
+      // ===================================================
+      // EVENT KLIK TANGGAL
+      // ===================================================
+
+      day.addEventListener(
+        'click',
+        function (event) {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (day.disabled) {
+            return;
+          }
+
+          // ===============================================
+          // KLIK PERTAMA = TANGGAL MULAI
+          // ===============================================
+
+          if (
+            !chartPickerStart ||
+            chartPickerEnd
+          ) {
+
+            chartPickerStart =
+              iso;
+
+            chartPickerEnd =
+              '';
+
+            applyButton.disabled =
+              true;
+
+            renderCalendar();
+
+            return;
+
+          }
+
+
+          // ===============================================
+          // KLIK KEDUA = TANGGAL AKHIR
+          // ===============================================
+
+          if (
+            !chartPickerEnd
+          ) {
+
+            if (
+              iso <
+              chartPickerStart
+            ) {
+
+              chartPickerEnd =
+                chartPickerStart;
+
+              chartPickerStart =
+                iso;
+
+            } else {
+
+              chartPickerEnd =
+                iso;
+
+            }
+
+            applyButton.disabled =
+              !(
+                chartPickerStart &&
+                chartPickerEnd
+              );
+
+            renderCalendar();
+
+          }
+
+        }
+      );
+
+
+      daysContainer.appendChild(
+        day
+      );
+
+    }
+
+  }
+
+
+  function renderChartYearPicker() {
+
+    chartYearPicker.innerHTML = '';
+
+    const tahunSekarang =
+      new Date().getFullYear();
+
+    const tahunMulai =
+      1990;
+
+    const tahunDipilih =
+      chartPickerMonth.getFullYear();
+
+    for (
+      let tahun = tahunSekarang;
+      tahun >= tahunMulai;
+      tahun--
+    ) {
+
+      const yearButton =
+        document.createElement('button');
+
+      yearButton.type =
+        'button';
+
+      yearButton.className =
+        'chart-year-option';
+
+      yearButton.textContent =
+        tahun;
+
+      if (
+        tahun === tahunDipilih
+      ) {
+
+        yearButton.classList.add(
+          'selected'
+        );
+
+      }
+
+      yearButton.addEventListener(
+        'click',
+        function (event) {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          // =============================================
+          // UBAH TAHUN KALENDER
+          // =============================================
+
+          chartPickerMonth.setFullYear(
+            tahun
+          );
+
+
+          // =============================================
+          // TUTUP YEAR PICKER
+          // =============================================
+
+          chartYearPicker.classList.remove(
+            'active'
+          );
+
+          chartYearPicker.style.display =
+            'none';
+
+
+          // =============================================
+          // UPDATE JUDUL BULAN + TAHUN
+          // =============================================
+
+          monthLabel.textContent =
+            new Intl.DateTimeFormat(
+              'id-ID',
+              {
+                month: 'long',
+                year: 'numeric'
+              }
+            ).format(
+              chartPickerMonth
+            );
+
+
+          // =============================================
+          // RENDER ULANG KALENDER
+          // =============================================
+
+          renderCalendar();
+
+        }
+      );
+
+      chartYearPicker.appendChild(
+        yearButton
+      );
+
+    }
+
+  }
+
+
+  monthLabel.addEventListener(
+    'click',
+    function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+
+      const sedangTerbuka =
+        chartYearPicker.classList.contains(
+          'active'
+        );
+
+
+      // =============================================
+      // JIKA SEDANG TERBUKA → TUTUP
+      // =============================================
+
+      if (sedangTerbuka) {
+
+        chartYearPicker.classList.remove(
+          'active'
+        );
+
+        chartYearPicker.style.display =
+          'none';
+
+        return;
+
+      }
+
+
+      // =============================================
+      // BUKA YEAR PICKER
+      // =============================================
+
+      renderChartYearPicker();
+
+      chartYearPicker.style.display =
+        'block';
+
+      chartYearPicker.classList.add(
+        'active'
+      );
+
+    }
+  );
+
+  // =======================================================
+  // BUKA PICKER
+  // =======================================================
+
+  button.addEventListener(
+    'click',
+    function (event) {
+
+      event.stopPropagation();
+
+      const sedangTerbuka =
+        picker.classList.contains(
+          'active'
+        );
+
+
+      if (
+        sedangTerbuka
+      ) {
+
+        picker.classList.remove(
+          'active'
+        );
+
+        return;
+
+      }
+
+
+      chartPickerStart =
+        chartAppliedStart;
+
+      chartPickerEnd =
+        chartAppliedEnd;
+
+
+      chartPickerMonth =
+        new Date(
+          chartPickerStart +
+          'T00:00:00'
+        );
+
+      if (isNaN(chartPickerMonth.getTime())) {
+
+        chartPickerMonth =
+          new Date();
+
+      }
+
+      renderCalendar();
+
+      applyButton.disabled =
+        !(
+          chartPickerStart &&
+          chartPickerEnd
+        );
+
+
+      picker.classList.add(
+        'active'
+      );
+
+    }
+  );
+
+
+  // =======================================================
+  // BULAN SEBELUMNYA
+  // =======================================================
+
+  prevButton.addEventListener(
+    'click',
+    function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      chartPickerMonth.setMonth(
+        chartPickerMonth.getMonth() - 1
+      );
+
+      renderCalendar();
+
+    }
+  );
+
+
+  // =======================================================
+  // BULAN BERIKUTNYA
+  // =======================================================
+
+  nextButton.addEventListener(
+    'click',
+    function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (nextButton.disabled) {
+        return;
+      }
+
+      chartPickerMonth.setMonth(
+        chartPickerMonth.getMonth() + 1
+      );
+
+      renderCalendar();
+
+    }
+  );
+
+
+  // =======================================================
+  // BATAL
+  // =======================================================
+
+  cancelButton.addEventListener(
+    'click',
+    function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      chartPickerStart =
+        chartAppliedStart;
+
+      chartPickerEnd =
+        chartAppliedEnd;
+
+      picker.classList.remove(
+        'active'
+      );
+
+    }
+  );
+
+
+  // =======================================================
+  // TERAPKAN
+  // =======================================================
+
+  applyButton.addEventListener(
+    'click',
+    function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (
+        !chartPickerStart ||
+        !chartPickerEnd
+      ) {
+
+        return;
+
+      }
+
+
+      // ===============================================
+      // SIMPAN RANGE YANG DIPILIH
+      // ===============================================
+
+      chartAppliedStart =
+        chartPickerStart;
+
+      chartAppliedEnd =
+        chartPickerEnd;
+
+
+      // ===============================================
+      // SIMPAN KE INPUT INTERNAL
+      // ===============================================
+
+      tanggalMulaiInput.value =
+        chartAppliedStart;
+
+      tanggalAkhirInput.value =
+        chartAppliedEnd;
+
+
+      // ===============================================
+      // UPDATE TAMPILAN TOMBOL
+      // ===============================================
+
+      rangeText.textContent =
+        formatDateRangeIndonesia(
+          chartAppliedStart,
+          chartAppliedEnd
+        );
+
+
+      // ===============================================
+      // TUTUP PICKER
+      // ===============================================
+
+      picker.classList.remove(
+        'active'
+      );
+
+
+      // ===============================================
+      // RENDER ULANG GRAFIK
+      // ===============================================
+
+      renderPertumbuhanPelanggan();
+
+    }
+  );
+
+
+  // =======================================================
+  // KLIK DI LUAR PICKER
+  // =======================================================
+
+  document.addEventListener('click', function (event) {
+    if (!picker.contains(event.target) && !button.contains(event.target)) {
+      picker.classList.remove('active');
+      if (chartYearPicker) {
+        chartYearPicker.classList.remove('active');
+      }
+    }
+  });
+
+
+  chartDatePickerInitialized =
+    true;
+
+  renderCalendar();
+
+}
+
+
 /*
 |--------------------------------------------------------------------------
 | AMBIL DATA DARI APPS SCRIPT API
@@ -42,19 +984,6 @@ async function loadPelanggan() {
 
   }
 
-  if (!container) {
-
-    console.error(
-      'Element #customerGrid tidak ditemukan.'
-    );
-
-    console.error(
-      '❌ loadPelanggan() berhenti karena customerGrid belum tersedia.'
-    );
-
-    return;
-
-  }
 
   console.log(
     '🚀 Menjalankan fetch data pelanggan...'
@@ -148,7 +1077,11 @@ async function loadPelanggan() {
       // SORT & RENDER
       // =========================================
 
+      initChartDateRangePicker();
+
       sortPelanggan();
+
+      renderPertumbuhanPelanggan();
 
     })
 
@@ -183,6 +1116,931 @@ async function loadPelanggan() {
     });
 
 }
+
+
+function updatePertumbuhanPelanggan() {
+
+  const growthValue =
+    document.getElementById('growthValue');
+
+  const growthIcon =
+    document.getElementById('growthIcon');
+
+  if (!growthValue || !growthIcon) {
+    return;
+  }
+
+
+  // =====================================================
+  // BERSIHKAN STATUS ICON SEBELUM UPDATE
+  // =====================================================
+
+  const iconElement = growthIcon.querySelector('i');
+
+  if (!iconElement) {
+    return;
+  }
+
+
+
+
+  // =====================================================
+  // TENTUKAN BULAN YANG SEDANG DITAMPILKAN
+  // =====================================================
+
+  const tanggalAkhirInput =
+    document.getElementById(
+      'tanggalAkhirGrafik'
+    );
+
+  if (!tanggalAkhirInput || !tanggalAkhirInput.value) {
+    return;
+  }
+
+
+  const tanggalAkhir =
+    new Date(
+      tanggalAkhirInput.value +
+      'T00:00:00'
+    );
+
+
+  const tahunSekarang =
+    tanggalAkhir.getFullYear();
+
+  const bulanSekarang =
+    tanggalAkhir.getMonth();
+
+
+  // =====================================================
+  // BULAN BERJALAN
+  // =====================================================
+
+  const bulanSekarangKey =
+    tahunSekarang +
+    '-' +
+    String(
+      bulanSekarang + 1
+    ).padStart(2, '0');
+
+
+  // =====================================================
+  // BULAN SEBELUMNYA
+  // =====================================================
+
+  const tanggalBulanSebelumnya =
+    new Date(
+      tahunSekarang,
+      bulanSekarang - 1,
+      1
+    );
+
+
+  const tahunSebelumnya =
+    tanggalBulanSebelumnya.getFullYear();
+
+  const bulanSebelumnya =
+    tanggalBulanSebelumnya.getMonth();
+
+
+  const bulanSebelumnyaKey =
+    tahunSebelumnya +
+    '-' +
+    String(
+      bulanSebelumnya + 1
+    ).padStart(2, '0');
+
+
+  // =====================================================
+  // HITUNG JUMLAH PELANGGAN PER BULAN
+  // =====================================================
+
+  let pelangganBulanSekarang = 0;
+
+  let pelangganBulanSebelumnya = 0;
+
+
+  semuaPelanggan.forEach(
+    function (pelanggan) {
+
+      const tanggal =
+        pelanggan.dibuatPadaISO;
+
+      if (!tanggal) {
+        return;
+      }
+
+
+      const bulan =
+        tanggal.substring(0, 7);
+
+
+      if (bulan === bulanSekarangKey) {
+
+        pelangganBulanSekarang++;
+
+      }
+
+
+      if (bulan === bulanSebelumnyaKey) {
+
+        pelangganBulanSebelumnya++;
+
+      }
+
+    }
+  );
+
+
+  // =====================================================
+  // HITUNG PERSENTASE PERTUMBUHAN
+  // =====================================================
+
+  // Jika bulan sebelumnya 0
+  if (pelangganBulanSebelumnya === 0) {
+
+    if (pelangganBulanSekarang > 0) {
+
+      growthValue.textContent = 'Baru';
+
+      iconElement.className = 'fa-solid fa-arrow-trend-up';
+
+      growthIcon.classList.remove('growth-down', 'growth-neutral');
+
+      growthValue.classList.remove(
+        'growth-down',
+        'growth-neutral'
+      );
+
+    } else {
+
+      growthValue.textContent = '0%';
+
+      iconElement.className = 'fa-solid fa-minus';
+
+      growthIcon.classList.add('growth-neutral');
+
+      growthIcon.classList.remove('growth-down');
+
+      growthValue.classList.add('growth-neutral');
+
+      growthValue.classList.remove('growth-down');
+
+    }
+
+    return;
+  }
+
+
+  const pertumbuhan =
+    (
+      (
+        pelangganBulanSekarang -
+        pelangganBulanSebelumnya
+      ) /
+      pelangganBulanSebelumnya
+    ) * 100;
+
+
+  const persen =
+    Math.abs(
+      pertumbuhan
+    ).toFixed(1);
+
+
+  // =====================================================
+  // NAIK
+  // =====================================================
+
+  if (pertumbuhan > 0) {
+
+    growthValue.textContent =
+      '+' + persen + '%';
+
+
+    iconElement.className = 'fa-solid fa-arrow-trend-up';
+
+
+    growthIcon.classList.remove(
+      'growth-down',
+      'growth-neutral'
+    );
+
+
+    growthValue.classList.remove(
+      'growth-down',
+      'growth-neutral'
+    );
+
+  }
+
+
+  // =====================================================
+  // TURUN
+  // =====================================================
+
+  else if (pertumbuhan < 0) {
+
+    growthValue.textContent =
+      '-' + persen + '%';
+
+
+    iconElement.className = 'fa-solid fa-arrow-trend-down';
+
+
+    growthIcon.classList.add(
+      'growth-down'
+    );
+
+
+    growthIcon.classList.remove(
+      'growth-neutral'
+    );
+
+
+    growthValue.classList.add(
+      'growth-down'
+    );
+
+
+    growthValue.classList.remove(
+      'growth-neutral'
+    );
+
+  }
+
+
+  // =====================================================
+  // TETAP
+  // =====================================================
+
+  else {
+
+    growthValue.textContent =
+      '0%';
+
+
+    iconElement.className = 'fa-solid fa-minus';
+
+
+    growthIcon.classList.add(
+      'growth-neutral'
+    );
+
+
+    growthIcon.classList.remove(
+      'growth-down'
+    );
+
+
+    growthValue.classList.add(
+      'growth-neutral'
+    );
+
+
+    growthValue.classList.remove(
+      'growth-down'
+    );
+
+  }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GRAFIK PERTUMBUHAN PELANGGAN
+|--------------------------------------------------------------------------
+*/
+
+
+function renderPertumbuhanPelanggan() {
+
+  // =========================================
+  // FILTER TANGGAL GRAFIK
+  // =========================================
+
+  const tanggalMulaiInput =
+    document.getElementById(
+      'tanggalMulaiGrafik'
+    );
+
+  const tanggalAkhirInput =
+    document.getElementById(
+      'tanggalAkhirGrafik'
+    );
+
+
+  if (
+    !tanggalMulaiInput ||
+    !tanggalAkhirInput
+  ) {
+
+    console.warn(
+      '⚠️ Input tanggal grafik tidak ditemukan.'
+    );
+
+    return;
+
+  }
+
+
+
+  // =========================================
+  // DEFAULT: BULAN BERJALAN
+  // =========================================
+
+  const hariIni =
+    new Date();
+
+
+  const tahun =
+    hariIni.getFullYear();
+
+
+  const bulan =
+    String(
+      hariIni.getMonth() + 1
+    ).padStart(2, '0');
+
+
+  const tanggal =
+    String(
+      hariIni.getDate()
+    ).padStart(2, '0');
+
+
+  const tanggalHariIni =
+    tahun +
+    '-' +
+    bulan +
+    '-' +
+    tanggal;
+
+
+  const tanggalMulaiBulan =
+    tahun +
+    '-' +
+    bulan +
+    '-01';
+
+
+  if (!tanggalMulaiInput.value) {
+
+    tanggalMulaiInput.value =
+      tanggalMulaiBulan;
+
+  }
+
+
+  if (!tanggalAkhirInput.value) {
+
+    tanggalAkhirInput.value =
+      tanggalHariIni;
+
+  }
+
+
+  // =====================================================
+  // GUNAKAN RANGE YANG SUDAH DITERAPKAN
+  // =====================================================
+
+  if (
+    chartAppliedStart &&
+    chartAppliedEnd
+  ) {
+
+    tanggalMulaiInput.value =
+      chartAppliedStart;
+
+    tanggalAkhirInput.value =
+      chartAppliedEnd;
+
+  }
+
+
+  const jumlahPerTanggal = {};
+
+  semuaPelanggan.forEach(function (pelanggan) {
+
+    console.log(
+      '📅 DATA TANGGAL:',
+      pelanggan.customerId,
+      pelanggan.dibuatPadaISO
+    );
+
+    const tanggal =
+      pelanggan.dibuatPadaISO;
+
+
+    if (!tanggal) {
+
+      return;
+
+    }
+
+
+    // Hanya data dalam rentang filter
+    if (
+      tanggal <
+      tanggalMulaiInput.value ||
+      tanggal >
+      tanggalAkhirInput.value
+    ) {
+
+      return;
+
+    }
+
+
+    if (!jumlahPerTanggal[tanggal]) {
+
+      jumlahPerTanggal[tanggal] = 0;
+
+    }
+
+
+    jumlahPerTanggal[tanggal]++;
+
+  });
+
+
+  // =========================================
+  // RENTANG TANGGAL SESUAI FILTER
+  // =========================================
+
+  const tanggalAwal =
+    new Date(
+      tanggalMulaiInput.value +
+      'T00:00:00'
+    );
+
+
+  const tanggalAkhir =
+    new Date(
+      tanggalAkhirInput.value +
+      'T00:00:00'
+    );
+
+
+  if (
+    tanggalAwal >
+    tanggalAkhir
+  ) {
+
+    console.warn(
+      '⚠️ Tanggal mulai lebih besar dari tanggal akhir.'
+    );
+
+    return;
+
+  }
+
+
+  // =========================================
+  // BUAT SEMUA TANGGAL DALAM RENTANG
+  // =========================================
+
+  const labels = [];
+  const values = [];
+
+  const tanggalBerjalan =
+    new Date(tanggalAwal);
+
+
+  while (
+    tanggalBerjalan <= tanggalAkhir
+  ) {
+
+    const tahun =
+      tanggalBerjalan.getFullYear();
+
+    const bulan =
+      String(
+        tanggalBerjalan.getMonth() + 1
+      ).padStart(2, '0');
+
+    const tanggal =
+      String(
+        tanggalBerjalan.getDate()
+      ).padStart(2, '0');
+
+
+    const tanggalISO =
+      tahun + '-' +
+      bulan + '-' +
+      tanggal;
+
+
+    labels.push(
+      new Intl.DateTimeFormat(
+        'id-ID',
+        {
+          day: '2-digit',
+          month: 'short'
+        }
+      ).format(
+        new Date(
+          tanggalISO + 'T00:00:00'
+        )
+      )
+    );
+
+
+    values.push(
+      jumlahPerTanggal[tanggalISO] || 0
+    );
+
+
+    tanggalBerjalan.setDate(
+      tanggalBerjalan.getDate() + 1
+    );
+
+  }
+
+
+  console.log(
+    '📊 Labels grafik:',
+    labels
+  );
+
+  console.log(
+    '📊 Values grafik:',
+    values
+  );
+
+  // =========================================
+  // TOTAL PELANGGAN DALAM PERIODE
+  // =========================================
+
+  const totalPelanggan =
+    values.reduce(
+      function (total, jumlah) {
+
+        return total + jumlah;
+
+      },
+      0
+    );
+
+
+  /* =========================================================
+   HITUNG PENDAPATAN BERDASARKAN BULAN
+   TARIF RESET SETIAP BULAN
+========================================================= */
+
+  const jumlahPerBulan = {};
+
+  semuaPelanggan.forEach(function (pelanggan) {
+
+    const tanggal =
+      pelanggan.dibuatPadaISO;
+
+    if (!tanggal) {
+      return;
+    }
+
+    if (
+      tanggal < tanggalMulaiInput.value ||
+      tanggal > tanggalAkhirInput.value
+    ) {
+      return;
+    }
+
+    const bulan =
+      tanggal.substring(0, 7);
+
+    if (!jumlahPerBulan[bulan]) {
+      jumlahPerBulan[bulan] = 0;
+    }
+
+    jumlahPerBulan[bulan]++;
+
+  });
+
+
+  // =============================================================================
+  // PENDAPATAN
+  // =============================================================================
+
+  let totalPendapatan = 0;
+
+  Object.keys(jumlahPerBulan)
+    .forEach(function (bulan) {
+
+      const jumlah =
+        jumlahPerBulan[bulan];
+
+      let tarif =
+        30000;
+
+      if (
+        jumlah >= 50 &&
+        jumlah <= 100
+      ) {
+
+        tarif = 40000;
+
+      }
+
+      else if (
+        jumlah > 100
+      ) {
+
+        tarif = 50000;
+
+      }
+
+      totalPendapatan +=
+        jumlah * tarif;
+
+    });
+
+
+  const pendapatanElement =
+    document.getElementById(
+      'pendapatanGrafik'
+    );
+
+  if (pendapatanElement) {
+
+    pendapatanElement.textContent =
+      'Rp' +
+      totalPendapatan.toLocaleString(
+        'id-ID'
+      );
+
+  }
+
+
+  const totalElement =
+    document.getElementById(
+      'totalPelangganGrafik'
+    );
+
+
+  if (totalElement) {
+
+    totalElement.textContent =
+      totalPelanggan.toLocaleString(
+        'id-ID'
+      );
+
+  }
+
+  updatePertumbuhanPelanggan();
+
+
+  // =========================================
+  // RENDER LINE CHART
+  // =========================================
+
+  const canvas =
+    document.getElementById('revenueChart');
+
+  if (!canvas) {
+
+    console.warn(
+      '⚠️ Canvas #revenueChart tidak ditemukan.'
+    );
+
+    return;
+
+  }
+
+
+  // Hapus chart sebelumnya jika ada
+  if (revenueChart) {
+
+    revenueChart.destroy();
+
+  }
+
+
+  revenueChart =
+    new Chart(canvas, {
+
+      type: 'line',
+
+      data: {
+
+        labels: labels,
+
+        datasets: [
+
+          {
+
+            label: 'Pelanggan Baru',
+
+            data: values,
+
+            tension: 0.4,
+
+            fill: true,
+
+            borderWidth: 2,
+
+            pointRadius: 0,
+
+            pointHoverRadius: 5,
+
+            backgroundColor:
+              function (context) {
+
+                const chart =
+                  context.chart;
+
+                const {
+                  ctx,
+                  chartArea
+                } = chart;
+
+
+                if (!chartArea) {
+
+                  return 'rgba(220, 44, 44, 0.08)';
+
+                }
+
+
+                const gradient =
+                  ctx.createLinearGradient(
+                    0,
+                    chartArea.top,
+                    0,
+                    chartArea.bottom
+                  );
+
+
+                gradient.addColorStop(
+                  0,
+                  'rgba(220, 44, 44, 0.18)'
+                );
+
+                gradient.addColorStop(
+                  1,
+                  'rgba(220, 44, 44, 0)'
+                );
+
+
+                return gradient;
+
+              },
+
+            borderColor: '#dc2c2c',
+
+            pointBackgroundColor: '#dc2c2c',
+
+            pointBorderColor: '#ffffff',
+
+            pointBorderWidth: 2
+
+          }
+
+        ]
+
+      },
+
+      options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        animation: {
+
+          duration: 700,
+
+          easing: 'easeOutQuart'
+
+        },
+
+        interaction: {
+
+          intersect: false,
+
+          mode: 'index'
+
+        },
+
+        plugins: {
+
+          legend: {
+
+            display: false
+
+          },
+
+
+          tooltip: {
+
+            padding: 10,
+
+            cornerRadius: 8,
+
+            displayColors: false,
+
+            callbacks: {
+
+              title: function (tooltipItems) {
+
+                return tooltipItems[0].label;
+
+              },
+
+              label: function (context) {
+
+                return (
+                  'Pelanggan Baru: ' +
+                  context.parsed.y
+                );
+
+              }
+
+            }
+
+          }
+
+        },
+
+        scales: {
+
+          x: {
+
+            grid: {
+
+              display: false
+
+            },
+
+            border: {
+
+              display: false
+
+            },
+
+            ticks: {
+
+              autoSkip: true,
+
+              maxTicksLimit: 7,
+
+              maxRotation: 0,
+
+              minRotation: 0,
+
+              padding: 8
+
+            }
+
+          },
+
+
+          y: {
+
+            beginAtZero: true,
+
+            border: {
+
+              display: false
+
+            },
+
+            grid: {
+
+              color:
+                'rgba(0, 0, 0, 0.05)',
+
+              drawTicks: false
+
+            },
+
+            ticks: {
+
+              precision: 0,
+
+              stepSize: 1,
+
+              padding: 8
+
+            }
+
+          }
+
+        }
+
+      }
+
+    });
+
+}
+
+
+/* =========================================================
+   RANGE DATE PICKER GRAFIK PELANGGAN
+========================================================= */
+
+
 
 
 
