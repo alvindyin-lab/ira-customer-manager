@@ -2966,6 +2966,71 @@ cursor: not-allowed;
 }
 
 /* =========================================================
+   JADIKAN SEBAGAI PELANGGAN BARU
+========================================================= */
+
+.customer-edit-new-customer-option {
+
+  margin-top: 5px;
+
+  padding: 14px 15px;
+
+  border: 1px solid #eeeeee;
+
+  border-radius: 10px;
+
+  background: #fafafa;
+
+}
+
+
+.customer-edit-new-customer-option label {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+
+  color: #333333;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+}
+
+
+.customer-edit-new-customer-option input[type="checkbox"] {
+
+  width: 17px;
+
+  height: 17px;
+
+  margin: 0;
+
+  accent-color: #da2c25;
+
+  cursor: pointer;
+
+}
+
+
+.customer-edit-new-customer-option p {
+
+  margin: 6px 0 0 27px;
+
+  color: #777777;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+}
+
+/* =========================================================
 FOOTER
 ========================================================= */
 
