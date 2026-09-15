@@ -66,6 +66,22 @@ function editPelangganDariModal() {
   };
 
   // =====================================================
+  // RESET OPSI "JADIKAN SEBAGAI PELANGGAN BARU"
+  // =====================================================
+
+  const jadikanPelangganBaru =
+    document.getElementById(
+      'jadikanPelangganBaru'
+    );
+
+  if (jadikanPelangganBaru) {
+
+    jadikanPelangganBaru.checked =
+      false;
+
+  }
+
+  // =====================================================
   // AMBIL ELEMENT MODAL EDIT
   // =====================================================
 
@@ -628,6 +644,10 @@ function ambilDataFormEdit() {
       'editCpe'
     ).value;
 
+  const jadikanPelangganBaru =
+    document.getElementById(
+      'jadikanPelangganBaru'
+    )?.checked || false;
 
   return {
 
@@ -673,7 +693,10 @@ function ambilDataFormEdit() {
       koordinat,
 
     cpe:
-      cpe
+      cpe,
+
+    jadikanPelangganBaru:
+      jadikanPelangganBaru
 
   };
 
@@ -1088,7 +1111,9 @@ async function simpanPerubahanPelanggan() {
 
 
     console.log(
-      '✅ Data pelanggan berhasil diperbarui.'
+      '✅',
+      result.message ||
+      'Data pelanggan berhasil diperbarui.'
     );
 
   }
