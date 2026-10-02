@@ -7,32 +7,6 @@ PAGE TAMBAH PELANGGAN
   <div class="tambah-pelanggan-container">
 
 
-    <!-- PAGE HEADER -->
-
-    <div class="tambah-page-header">
-
-      <div class="tambah-page-icon">
-
-        <i class="fa-solid fa-user-plus"></i>
-
-      </div>
-
-
-      <div class="tambah-page-title">
-
-        <h2>
-          Tambah Pelanggan Baru
-        </h2>
-
-        <p>
-          Lengkapi informasi berikut untuk menambahkan pelanggan baru.
-        </p>
-
-      </div>
-
-    </div>
-
-
     <!-- FORM PANEL -->
 
     <div class="tambah-pelanggan-panel">
@@ -42,11 +16,24 @@ PAGE TAMBAH PELANGGAN
 
       <div class="form-header">
 
-        <i class="fa-regular fa-address-card"></i>
+        <div class="tambah-page-icon">
 
-        <h3>
-          Informasi Pelanggan
-        </h3>
+          <i class="fa-solid fa-user-plus"></i>
+
+        </div>
+
+
+        <div class="tambah-page-title">
+
+          <h2>
+            Tambah Pelanggan Baru
+          </h2>
+
+          <p>
+            Lengkapi informasi berikut untuk menambahkan pelanggan baru.
+          </p>
+
+        </div>
 
       </div>
 
@@ -88,11 +75,7 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <input
-              type="text"
-              id="inputNama"
-              placeholder="Masukkan nama lengkap pelanggan"
-              autocomplete="off">
+            <input type="text" id="inputNama" placeholder="Masukkan nama lengkap pelanggan" autocomplete="off">
 
           </div>
 
@@ -105,12 +88,7 @@ PAGE TAMBAH PELANGGAN
               Customer ID
             </label>
 
-            <input
-              type="text"
-              id="inputId"
-              placeholder="Masukkan ID pelanggan"
-              autocomplete="off"
-            >
+            <input type="text" id="inputId" placeholder="Masukkan ID pelanggan" autocomplete="off">
 
           </div>
 
@@ -133,12 +111,7 @@ PAGE TAMBAH PELANGGAN
 
               <!-- <i class="fa-brands fa-whatsapp"></i> -->
 
-              <input
-                type="tel"
-                id="inputWhatsapp"
-                placeholder="08xxxxxxxxxx"
-                autocomplete="off"
-              >
+              <input type="tel" id="inputWhatsapp" placeholder="08xxxxxxxxxx" autocomplete="off">
 
             </div>
 
@@ -153,12 +126,7 @@ PAGE TAMBAH PELANGGAN
               Serial Number
             </label>
 
-            <input
-              type="text"
-              id="inputSerialNumber"
-              placeholder="Masukkan serial number CPE"
-              autocomplete="off"
-            >
+            <input type="text" id="inputSerialNumber" placeholder="Masukkan serial number CPE" autocomplete="off">
 
           </div>
 
@@ -172,14 +140,8 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <input
-              type="text"
-              id="inputNik"
-              placeholder="Masukkan 16 digit NIK"
-              maxlength="16"
-              inputmode="numeric"
-              autocomplete="off"
-            >
+            <input type="text" id="inputNik" placeholder="Masukkan 16 digit NIK" maxlength="16" inputmode="numeric"
+              autocomplete="off">
 
           </div>
 
@@ -198,9 +160,7 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <select
-              id="inputKecamatan"
-              onchange="ubahKecamatan(); updateSelectPlaceholder(this)">
+            <select id="inputKecamatan" onchange="ubahKecamatan(); updateSelectPlaceholder(this)">
 
               <option value="" selected>
                 - Pilih Kecamatan -
@@ -220,10 +180,7 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <select
-              id="inputDesa" 
-              disabled
-              onchange="updateSelectPlaceholder(this)">
+            <select id="inputDesa" disabled onchange="updateSelectPlaceholder(this)">
 
               <option value="" selected>
                 - Pilih Desa / Kelurahan -
@@ -243,15 +200,8 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <input
-              type="text"
-              id="inputRTRW"
-              placeholder="00/00"
-              maxlength="5"
-              inputmode="numeric"
-              autocomplete="off"
-              oninput="formatRTRW(this)"
-            >
+            <input type="text" id="inputRTRW" placeholder="00/00" maxlength="5" inputmode="numeric" autocomplete="off"
+              oninput="formatRTRW(this)">
 
           </div>
 
@@ -268,10 +218,7 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <textarea
-              id="inputAlamat"
-              rows="4"
-              placeholder="Masukkan alamat lengkap beserta patokan rumah"></textarea>
+            <textarea id="inputAlamat" rows="4" placeholder="Masukkan alamat lengkap beserta patokan rumah"></textarea>
 
           </div>
 
@@ -290,12 +237,7 @@ PAGE TAMBAH PELANGGAN
               <span>*</span>
             </label>
 
-            <input
-              type="text"
-              id="inputKoordinat"
-              placeholder="Contoh: -7.4478, 112.7183"
-              autocomplete="off"
-            >
+            <input type="text" id="inputKoordinat" placeholder="Contoh: -7.4478, 112.7183" autocomplete="off">
 
           </div>
 
@@ -352,11 +294,7 @@ PAGE TAMBAH PELANGGAN
 
           <div class="form-actions">
 
-            <button
-              type="button"
-              class="btn-batal"
-              onclick="resetFormPelanggan()"
-            >
+            <button type="button" class="btn-batal" onclick="resetFormPelanggan()">
 
               <i class="fa-solid fa-xmark"></i>
 
@@ -365,10 +303,7 @@ PAGE TAMBAH PELANGGAN
             </button>
 
 
-            <button
-              type="submit"
-              class="btn-simpan"
-            >
+            <button type="submit" class="btn-simpan">
 
               <i class="fa-regular fa-floppy-disk"></i>
 
@@ -435,13 +370,11 @@ MODAL VALIDASI TAMBAH PELANGGAN
       </div>
 
       <div>
+        <span>Serial Number</span>
 
-        <span>WhatsApp</span>
-
-        <strong id="validasiWhatsapp">
+        <strong id="validasiSerialNumber">
           -
         </strong>
-
       </div>
 
       <div>
@@ -471,22 +404,14 @@ MODAL VALIDASI TAMBAH PELANGGAN
 
     <div class="validation-actions">
 
-      <button
-        type="button"
-        class="modal-btn-batal"
-        onclick="tutupModalValidasi()"
-      >
+      <button type="button" class="modal-btn-batal" onclick="tutupModalValidasi()">
 
         BATAL
 
       </button>
 
 
-      <button
-        type="button"
-        class="modal-btn-oke"
-        onclick="konfirmasiSimpanPelanggan()"
-      >
+      <button type="button" class="modal-btn-oke" onclick="konfirmasiSimpanPelanggan()">
 
         SIMPAN
 
