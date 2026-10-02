@@ -2071,6 +2071,7 @@ function filterPelanggan() {
       ${customer.customerId}
       ${customer.nama}
       ${customer.whatsapp}
+      ${customer.serialnumber}
       ${customer.nik}
       ${customer.kecamatan}
       ${customer.desa}
