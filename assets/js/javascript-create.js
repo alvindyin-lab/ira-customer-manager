@@ -5,7 +5,7 @@
 
 const DATA_WILAYAH = {
 
-"Balongbendo": [
+  "Balongbendo": [
     "Balongbendo",
     "Bakalan Wringinpitu",
     "Bakungpringgodani",
@@ -26,9 +26,9 @@ const DATA_WILAYAH = {
     "Watesari",
     "Wonokarang",
     "Wonokupang"
-],
+  ],
 
-"Buduran": [
+  "Buduran": [
     "Banjarkemantren",
     "Banjarsari",
     "Buduran",
@@ -44,9 +44,9 @@ const DATA_WILAYAH = {
     "Siwalanpanji",
     "Sukorejo",
     "Wadungasih"
-],
+  ],
 
-"Candi": [
+  "Candi": [
     "Balongdowo",
     "Balonggabus",
     "Bligo",
@@ -71,9 +71,9 @@ const DATA_WILAYAH = {
     "Sumorame",
     "Tenggulunan",
     "Wedoroklurak"
-],
+  ],
 
-"Gedangan": [
+  "Gedangan": [
     "Bangah",
     "Ganting",
     "Gedangan",
@@ -89,9 +89,9 @@ const DATA_WILAYAH = {
     "Seruni",
     "Tebel",
     "Wedi"
-],
+  ],
 
-"Jabon": [
+  "Jabon": [
     "Balongtani",
     "Dukuhsari",
     "Jemirahan",
@@ -105,9 +105,9 @@ const DATA_WILAYAH = {
     "Semambung",
     "Tambakkalisogo",
     "Trompoasri"
-],
+  ],
 
-"Krembung": [
+  "Krembung": [
     "Balonggarut",
     "Cangkring",
     "Gading",
@@ -127,9 +127,9 @@ const DATA_WILAYAH = {
     "Wangkal",
     "Wonomlati",
     "Waung"
-],
+  ],
 
-"Krian": [
+  "Krian": [
     "Barengkrajan",
     "Gamping",
     "Jatikalang",
@@ -152,9 +152,9 @@ const DATA_WILAYAH = {
     "Kemasan",
     "Krian",
     "Tambak Kemerakan"
-],
+  ],
 
-"Prambon": [
+  "Prambon": [
     "Bendotretek",
     "Bulang",
     "Cangkringturi",
@@ -175,10 +175,10 @@ const DATA_WILAYAH = {
     "Watutulis",
     "Wirobiting",
     "Wonoplintahan"
-],
+  ],
 
 
-"Porong": [
+  "Porong": [
     "Candipari",
     "Glagaharum",
     "Kebakalan",
@@ -194,9 +194,9 @@ const DATA_WILAYAH = {
     "Gedang",
     "Juwetkenongo",
     "Porong"
-],
+  ],
 
-"Sedati": [
+  "Sedati": [
     "Banjarkemuning",
     "Betro",
     "Buncitan",
@@ -213,9 +213,9 @@ const DATA_WILAYAH = {
     "Segorotambak",
     "Semampir",
     "Tambakcemandi"
-],
+  ],
 
-"Sidoarjo": [
+  "Sidoarjo": [
     "Banjarbendo",
     "Blurukidul",
     "Bulusidokare",
@@ -240,9 +240,9 @@ const DATA_WILAYAH = {
     "Suko",
     "Sumput",
     "Urangagung"
-],
+  ],
 
-"Sukodono": [
+  "Sukodono": [
     "Anggaswangi",
     "Bangsri",
     "Cangkringsari",
@@ -262,9 +262,9 @@ const DATA_WILAYAH = {
     "Sukodono",
     "Suruh",
     "Wilayut"
-],
+  ],
 
-"Taman": [
+  "Taman": [
     "Bebekan",
     "Bohar",
     "Bringinbendo",
@@ -289,9 +289,9 @@ const DATA_WILAYAH = {
     "Trosobo",
     "Wage",
     "Wonocolo"
-],
+  ],
 
-"Tanggulangin": [
+  "Tanggulangin": [
     "Banjarasri",
     "Banjarpanji",
     "Boro",
@@ -310,9 +310,9 @@ const DATA_WILAYAH = {
     "Putat",
     "Randegan",
     "Sentul"
-],
+  ],
 
-"Tarik": [
+  "Tarik": [
     "Balongmacekan",
     "Banjarwungu",
     "Gampingrowo",
@@ -333,9 +333,9 @@ const DATA_WILAYAH = {
     "Segodobancang",
     "Singogalih",
     "Tarik"
-],
+  ],
 
-"Tulangan": [
+  "Tulangan": [
     "Gelang",
     "Grabagan",
     "Grinting",
@@ -358,9 +358,9 @@ const DATA_WILAYAH = {
     "Sudimoro",
     "Tlasih",
     "Tulangan"
-],
+  ],
 
-"Waru": [
+  "Waru": [
     "Berbek",
     "Bungurasih",
     "Janti",
@@ -378,9 +378,9 @@ const DATA_WILAYAH = {
     "Wadungasri",
     "Waru",
     "Wedoro"
-],
+  ],
 
-"Wonoayu": [
+  "Wonoayu": [
     "Becirongengor",
     "Candinegoro",
     "Jimbarankulon",
@@ -404,7 +404,7 @@ const DATA_WILAYAH = {
     "Wonoayu",
     "Wonokalang",
     "Wonokasian"
-],
+  ],
 
 };
 
@@ -434,7 +434,7 @@ function loadKecamatan() {
 
 
   Object.keys(DATA_WILAYAH)
-    .forEach(function(kecamatan) {
+    .forEach(function (kecamatan) {
 
       const option =
         document.createElement('option');
@@ -509,7 +509,7 @@ function ubahKecamatan() {
 
 
   DATA_WILAYAH[kecamatan]
-    .forEach(function(desa) {
+    .forEach(function (desa) {
 
       const option =
         document.createElement('option');
@@ -696,8 +696,8 @@ function submitFormPelanggan(event) {
 
 
   document.getElementById(
-    'validasiNik'
-  ).textContent = nik;
+    'validasiSerialNumber'
+  ).textContent = serialnumber;
 
 
   document.getElementById(
@@ -710,31 +710,31 @@ function submitFormPelanggan(event) {
   // SIMPAN DATA SEMENTARA
   // ================================================
 
-window.dataPelangganSementara = {
+  window.dataPelangganSementara = {
 
-  id: id,
+    id: id,
 
-  nama: nama,
+    nama: nama,
 
-  whatsapp: whatsapp,
+    whatsapp: whatsapp,
 
-  serialnumber: serialnumber,
+    serialnumber: serialnumber,
 
-  nik: nik,
+    nik: nik,
 
-  kecamatan: kecamatan,
+    kecamatan: kecamatan,
 
-  desa: desa,
+    desa: desa,
 
-  rtrw: rtrw,
+    rtrw: rtrw,
 
-  alamat: alamat,
+    alamat: alamat,
 
-  koordinat: koordinat,
+    koordinat: koordinat,
 
-  cpe: cpe
+    cpe: cpe
 
-};
+  };
 
 
   // ================================================
@@ -965,7 +965,7 @@ async function konfirmasiSimpanPelanggan() {
           }
 
         } catch (
-          verifyError
+        verifyError
         ) {
 
           console.warn(
@@ -981,7 +981,7 @@ async function konfirmasiSimpanPelanggan() {
         /* Tunggu sebelum mencoba lagi */
 
         await new Promise(
-          function(resolve) {
+          function (resolve) {
 
             setTimeout(
               resolve,
@@ -1081,7 +1081,7 @@ function pindahKePagePelanggan() {
     );
 
 
-  navItems.forEach(function(item) {
+  navItems.forEach(function (item) {
 
     item.classList.remove(
       'active'
@@ -1090,7 +1090,7 @@ function pindahKePagePelanggan() {
   });
 
 
-  pages.forEach(function(page) {
+  pages.forEach(function (page) {
 
     page.classList.remove(
       'active'
@@ -1183,7 +1183,7 @@ function resetFormPelanggan() {
 
 document.addEventListener(
   'layoutLoaded',
-  function() {
+  function () {
 
     console.log(
       '✅ Memuat data Kecamatan...'
